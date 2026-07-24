@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 // @ts-ignore
 import programmerBg from './assets/images/programmer_bg_1784650977138.jpg';
+import profilePhoto from './assets/images/photo.png';
 import Balatro from './components/Balatro';
 import ApiPlayground from './components/ApiPlayground';
 import ScrollReveal from './components/ScrollReveal';
@@ -57,6 +58,16 @@ interface Experience {
   description: string;
   tags: string[];
 }
+
+const ABOUT_ME = {
+  name: 'Antony Gitau Kihara',
+  title: 'Backend-Focused Full-Stack Software Engineer',
+  location: 'Nairobi, Kenya',
+  email: 'tgitau088@gmail.com',
+  github: 'https://github.com/Tony46117',
+  bio: 'I architect high-performance software systems — from Python/FastAPI microservices to React frontends. Every system I design prioritizes speed, scalability, and clean architecture.',
+  funFact: 'When I\'m not engineering APIs, you\'ll find me exploring distributed systems design patterns or contributing to open-source projects.',
+};
 
 const FEATURED_PROJECTS: Project[] = [
   {
@@ -349,57 +360,140 @@ export default function App() {
           <ScrollReveal>
             <div className="space-y-6">
 
-              {/* Terminal badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900/80 border border-white/5 rounded-full text-xs font-mono text-indigo-400 group hover:border-indigo-500/20 transition-all"
-              >
-                <Terminal className="w-3.5 h-3.5" />
-                <span className="text-neutral-500">$</span>
-                <motion.span
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                >_</motion.span>
-                <span className="text-neutral-300">./portfolio --fullstack</span>
-                <Sparkles className="w-3 h-3 text-indigo-400/50 group-hover:text-indigo-400 transition-colors" />
-              </motion.div>
-
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                {/* Profile Photo */}
                 <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 }}
-                  className="text-xs font-mono font-semibold tracking-wider uppercase gradient-text-subtle"
+                  initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{ duration: 0.8, ease: 'easeOut' }}
+                  className="lg:col-span-2 flex justify-center lg:justify-start"
                 >
-                  Antony Gitau Kihara
+                  <div className="relative group">
+                    {/* Animated blob background */}
+                    <div className="absolute -inset-4 bg-gradient-to-br from-indigo-600/30 via-purple-600/20 to-cyan-600/30 rounded-full blur-2xl animate-breathe group-hover:scale-110 transition-transform duration-700" />
+                    
+                    {/* Outer ring with rotating gradient */}
+                    <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full p-0.5 bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-500 animate-spin-slow [animation-duration:8s]">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-600/20 via-purple-600/10 to-cyan-600/20 animate-pulse" />
+                      
+                      {/* Inner container */}
+                      <div className="relative w-full h-full rounded-full overflow-hidden bg-[#0c0c0e]">
+                        <img
+                          src={profilePhoto}
+                          alt="Antony Gitau Kihara"
+                          className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
+                        />
+                        
+                        {/* Overlay gradient on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      </div>
+                    </div>
+
+                    {/* Orbiting dots */}
+                    <motion.div
+                      className="absolute -top-2 -right-2 w-4 h-4 bg-indigo-400 rounded-full"
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <motion.div
+                      className="absolute -bottom-1 -left-1 w-3 h-3 bg-purple-400 rounded-full"
+                      animate={{ scale: [1, 1.4, 1] }}
+                      transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+                    />
+                    <motion.div
+                      className="absolute top-1/2 -right-3 w-2 h-2 bg-cyan-400 rounded-full"
+                      animate={{ scale: [1, 1.5, 1] }}
+                      transition={{ duration: 1.8, repeat: Infinity, delay: 1 }}
+                    />
+
+                    {/* Status badge */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 1.2, duration: 0.4 }}
+                      className="absolute -bottom-2 -right-2 bg-emerald-500/90 text-white text-[10px] font-mono font-bold px-3 py-1.5 rounded-full shadow-lg backdrop-blur-sm border border-emerald-400/30"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                        Available
+                      </span>
+                    </motion.div>
+                  </div>
                 </motion.div>
 
-                {/* Animated word cycler with scramble effect */}
-                <div className="h-28 sm:h-24 flex flex-col justify-center">
-                  <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight glow">
-                    <TextScramble
-                      texts={PROGRAMMER_WORDS}
-                      className="gradient-text"
-                      letterSpeed={30}
-                      nextLetterSpeed={20}
-                      pauseTime={3500}
-                    />
-                  </h1>
-                </div>
+                {/* Text Content */}
+                <div className="lg:col-span-3 space-y-6">
+                  {/* Terminal badge */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900/80 border border-white/5 rounded-full text-xs font-mono text-indigo-400 group hover:border-indigo-500/20 transition-all"
+                  >
+                    <Terminal className="w-3.5 h-3.5" />
+                    <span className="text-neutral-500">$</span>
+                    <motion.span
+                      animate={{ opacity: [1, 0] }}
+                      transition={{ duration: 0.8, repeat: Infinity }}
+                    >_</motion.span>
+                    <span className="text-neutral-300">./portfolio --fullstack</span>
+                    <Sparkles className="w-3 h-3 text-indigo-400/50 group-hover:text-indigo-400 transition-colors" />
+                  </motion.div>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="text-neutral-400 text-base sm:text-lg max-w-2xl leading-relaxed"
-                >
-                  I build <span className="text-indigo-400 font-semibold">high-performance software</span> — 
-                  from <span className="text-indigo-400 font-semibold">Python/FastAPI</span> microservices 
-                  to <span className="text-indigo-400 font-semibold">React</span> frontends. 
-                  Every system I design prioritizes speed, scalability, and clean architecture.
-                </motion.p>
+                  <div className="space-y-3">
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.1 }}
+                      className="text-xs font-mono font-semibold tracking-wider uppercase gradient-text-subtle"
+                    >
+                      {ABOUT_ME.name}
+                    </motion.div>
+
+                    {/* Animated word cycler with scramble effect */}
+                    <div className="h-28 sm:h-24 flex flex-col justify-center">
+                      <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight glow">
+                        <TextScramble
+                          texts={PROGRAMMER_WORDS}
+                          className="gradient-text"
+                          letterSpeed={30}
+                          nextLetterSpeed={20}
+                          pauseTime={3500}
+                        />
+                      </h1>
+                    </div>
+
+                    <motion.p
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                      className="text-neutral-400 text-base sm:text-lg max-w-2xl leading-relaxed"
+                    >
+                      I build <span className="text-indigo-400 font-semibold">high-performance software</span> — 
+                      from <span className="text-indigo-400 font-semibold">Python/FastAPI</span> microservices 
+                      to <span className="text-indigo-400 font-semibold">React</span> frontends. 
+                      Every system I design prioritizes speed, scalability, and clean architecture.
+                    </motion.p>
+
+                    {/* Location & Fun fact */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.4 }}
+                      className="flex flex-wrap gap-4 text-xs text-neutral-500"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <span className="text-base">📍</span>
+                        {ABOUT_ME.location}
+                      </span>
+                      <span className="text-neutral-700/50 hidden sm:inline">|</span>
+                      <span className="flex items-center gap-1.5">
+                        <Brain className="w-3.5 h-3.5 text-indigo-400/60" />
+                        <span className="text-neutral-500 italic">{ABOUT_ME.funFact}</span>
+                      </span>
+                    </motion.div>
+                  </div>
+                </div>
               </div>
 
               {/* CTA Buttons - with magnetic effect */}
