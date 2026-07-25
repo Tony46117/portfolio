@@ -55,7 +55,7 @@ export default function AnimatedCounter({
   return (
     <div ref={ref} className="text-center group">
       <div className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight tabular-nums">
-        {icon && <span className="inline-block mr-1.5 text-indigo-400">{icon}</span>}
+        {icon && <span className="inline-block mr-1.5 text-orange-400">{icon}</span>}
         {count.toFixed(decimals)}
         {suffix}
       </div>

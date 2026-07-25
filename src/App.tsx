@@ -216,15 +216,15 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-[#e5e5e5] font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="min-h-screen bg-[#111828] text-[#e5e5e5] font-sans selection:bg-orange-500/30 selection:text-orange-200">
 
       {/* Background */}
       <div
         className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-[0.08] pointer-events-none"
         style={{ backgroundImage: `url(${programmerBg})` }}
       />
-      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#050505]/95 via-transparent to-[#050505]/95 pointer-events-none" />
-      <div className="fixed inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_50%,#050505_85%)] pointer-events-none" />
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#111828]/95 via-transparent to-[#111828]/95 pointer-events-none" />
+      <div className="fixed inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_50%,#111828_85%)] pointer-events-none" />
 
       <div className="relative z-10">
 
@@ -234,15 +234,15 @@ export default function App() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className={`sticky top-[2px] z-50 transition-all duration-500 ${
-            scrolled ? 'bg-[#050505]/80 backdrop-blur-xl shadow-lg shadow-indigo-500/5' : 'bg-[#050505]/40 backdrop-blur-md'
+            scrolled ? 'bg-[#111828]/80 backdrop-blur-xl shadow-lg shadow-orange-500/5' : 'bg-[#111828]/40 backdrop-blur-md'
           } border-b border-white/5 px-6 sm:px-12 py-4`}
         >
           <div className="max-w-5xl mx-auto flex items-center justify-between">
             <MagneticButton strength={0.2}>
               <button onClick={() => scrollTo('hero')} className="flex items-center gap-2.5 group cursor-pointer">
                 <span className="relative flex items-center justify-center w-8 h-8">
-                  <span className="absolute inset-0 rounded-full bg-indigo-500/20" />
-                  <span className="w-2 h-2 rounded-full bg-indigo-400 group-hover:scale-125 transition-transform relative" />
+                  <span className="absolute inset-0 rounded-full bg-orange-500/20" />
+                  <span className="w-2 h-2 rounded-full bg-orange-400 group-hover:scale-125 transition-transform relative" />
                 </span>
                 <span className="font-mono text-xs text-white font-bold tracking-tight">
                   antony@kihara:~
@@ -256,14 +256,14 @@ export default function App() {
                   key={link.id}
                   onClick={() => scrollTo(link.id)}
                   className={`transition-all cursor-pointer relative py-1 ${
-                    activeSection === link.id ? 'text-indigo-400' : 'hover:text-white'
+                    activeSection === link.id ? 'text-orange-400' : 'hover:text-white'
                   }`}
                 >
                   /{link.label.toLowerCase()}
                   {activeSection === link.id && (
                     <motion.div
                       layoutId="nav-indicator"
-                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-indigo-500 rounded-full"
+                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-orange-500 rounded-full"
                       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                     />
                   )}
@@ -291,7 +291,7 @@ export default function App() {
                   {navLinks.map((link) => (
                     <button key={link.id} onClick={() => scrollTo(link.id)}
                       className={`text-left px-2 py-2 rounded transition-all cursor-pointer ${
-                        activeSection === link.id ? 'text-indigo-400 bg-indigo-500/5' : 'text-neutral-400 hover:text-white hover:bg-white/5'
+                        activeSection === link.id ? 'text-orange-400 bg-orange-500/5' : 'text-neutral-400 hover:text-white hover:bg-white/5'
                       }`}>
                       /{link.label.toLowerCase()}
                     </button>
@@ -307,7 +307,9 @@ export default function App() {
         </motion.nav>
 
         {/* ─── Hero ─── */}
-        <section id="hero" className="relative pt-24 pb-16 px-6 max-w-5xl mx-auto min-h-[85vh] flex flex-col justify-center">
+        <section id="hero" className="relative pt-24 pb-16 px-6 min-h-[85vh] flex flex-col justify-center overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.03] via-transparent to-amber-500/[0.03] pointer-events-none" />
+          <div className="max-w-5xl mx-auto w-full">
           <ScrollReveal>
             <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12 gap-8">
 
@@ -320,12 +322,12 @@ export default function App() {
               >
                 <div className="relative w-48 h-48 sm:w-56 sm:h-56">
                   {/* Static gradient border ring */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500/40 via-purple-500/30 to-indigo-400/40 p-[3px]">
-                    <div className="w-full h-full rounded-full bg-[#050505]" />
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-500/40 via-amber-500/30 to-orange-400/40 p-[3px]">
+                    <div className="w-full h-full rounded-full bg-[#111828]" />
                   </div>
 
                   {/* Image container */}
-                  <div className="absolute inset-[3px] rounded-full overflow-hidden bg-[#0c0c0e] shadow-xl shadow-indigo-500/10">
+                  <div className="absolute inset-[3px] rounded-full overflow-hidden bg-[#1a2332] shadow-xl shadow-orange-500/10">
                     <img
                       src={profilePhoto}
                       alt="Antony Gitau Kihara"
@@ -338,7 +340,7 @@ export default function App() {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 1, type: 'spring' }}
-                    className="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full border-[3px] border-[#050505] flex items-center justify-center z-10"
+                    className="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full border-[3px] border-[#111828] flex items-center justify-center z-10"
                   >
                     <span className="w-2 h-2 bg-emerald-400 rounded-full" />
                   </motion.div>
@@ -352,7 +354,7 @@ export default function App() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900/80 border border-white/5 rounded-full text-xs font-mono text-indigo-400 hover:border-indigo-500/20 transition-all"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900/80 border border-white/5 rounded-full text-xs font-mono text-orange-400 hover:border-orange-500/20 transition-all"
                 >
                   <Terminal className="w-3.5 h-3.5" />
                   <span className="text-neutral-500">$</span>
@@ -404,7 +406,7 @@ export default function App() {
                     </span>
                     <span className="text-neutral-700/50 hidden sm:inline">|</span>
                     <span className="flex items-center gap-1.5">
-                      <Brain className="w-3.5 h-3.5 text-indigo-400/60" />
+                      <Brain className="w-3.5 h-3.5 text-orange-400/60" />
                       <span className="text-neutral-500 italic">{ABOUT_ME.funFact}</span>
                     </span>
                   </motion.div>
@@ -419,7 +421,7 @@ export default function App() {
                 >
                   <MagneticButton strength={0.25}>
                     <button onClick={() => scrollTo('contact')}
-                      className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/40 hover:-translate-y-0.5 cursor-pointer"
+                      className="px-6 py-3 bg-orange-600 hover:bg-orange-500 text-white font-medium text-xs rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-orange-600/20 hover:shadow-orange-600/40 hover:-translate-y-0.5 cursor-pointer"
                     >
                       Initiate Contact <ArrowRight className="w-3.5 h-3.5" />
                     </button>
@@ -462,12 +464,13 @@ export default function App() {
               <motion.div
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="text-neutral-600 group-hover:text-indigo-400 transition-colors"
+                className="text-neutral-600 group-hover:text-orange-400 transition-colors"
               >
                 <ChevronDown className="w-6 h-6" />
               </motion.div>
             </button>
           </motion.div>
+        </div>
         </section>
 
         <SectionDivider />
@@ -545,7 +548,7 @@ export default function App() {
               <ScrollReveal key={proj.id} delay={0.1 * i} direction={i === 0 ? 'left' : i === 2 ? 'right' : 'up'}>
                 <TiltCard tiltDeg={6} glare={true}>
                   <motion.div
-                    className="group bg-[#0c0c0e] border border-white/5 rounded-xl p-5 hover:border-indigo-500/20 hover:bg-[#0c0c0e]/80 transition-all duration-300 flex flex-col justify-between space-y-4 min-h-[200px] relative overflow-hidden"
+                    className="group bg-[#1a2332] border border-white/5 rounded-xl p-5 hover:border-orange-500/20 hover:bg-[#1a2332]/80 transition-all duration-300 flex flex-col justify-between space-y-4 min-h-[200px] relative overflow-hidden"
                     whileHover={{ y: -2 }}
                     transition={{ type: 'spring', stiffness: 200, damping: 15 }}
                   >
@@ -554,7 +557,7 @@ export default function App() {
 
                     <div className="space-y-2 relative z-10">
                       <div className="flex items-start justify-between">
-                        <h4 className="text-sm font-bold text-white tracking-tight group-hover:text-indigo-300 transition-colors">
+                        <h4 className="text-sm font-bold text-white tracking-tight group-hover:text-orange-300 transition-colors">
                           {proj.title}
                         </h4>
                         <a href={proj.github} target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-white transition-colors">
@@ -565,7 +568,7 @@ export default function App() {
                     </div>
                     <div className="flex flex-wrap gap-1.5 relative z-10">
                       {proj.tags.map((t) => (
-                        <span key={t} className="text-[9px] font-mono font-medium bg-[#141416] text-indigo-300 border border-indigo-500/10 px-1.5 py-0.5 rounded group-hover:border-indigo-500/20 transition-colors">
+                        <span key={t} className="text-[9px] font-mono font-medium bg-[#141416] text-orange-300 border border-orange-500/10 px-1.5 py-0.5 rounded group-hover:border-orange-500/20 transition-colors">
                           {t}
                         </span>
                       ))}
@@ -597,16 +600,16 @@ export default function App() {
                 <motion.div
                   whileHover={{ x: 4 }}
                   transition={{ type: 'spring', stiffness: 200 }}
-                  className="relative flex gap-6 pl-6 before:content-[''] before:absolute before:left-[7px] before:top-3 before:bottom-[-24px] before:w-[1px] before:bg-gradient-to-b before:from-indigo-500/20 before:to-transparent last:before:hidden"
+                  className="relative flex gap-6 pl-6 before:content-[''] before:absolute before:left-[7px] before:top-3 before:bottom-[-24px] before:w-[1px] before:bg-gradient-to-b before:from-orange-500/20 before:to-transparent last:before:hidden"
                 >
-                  <div className="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-indigo-500/20 border-2 border-indigo-500 flex items-center justify-center animate-pulse-glow">
+                  <div className="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-orange-500/20 border-2 border-orange-500 flex items-center justify-center animate-pulse-glow">
                     <motion.div
                       animate={{ scale: [1, 1.3, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
-                      className="w-[5px] h-[5px] rounded-full bg-indigo-400"
+                      className="w-[5px] h-[5px] rounded-full bg-orange-400"
                     />
                   </div>
-                  <div className="flex-1 bg-[#0c0c0e] border border-white/5 rounded-xl p-5 hover:border-indigo-500/20 hover:bg-[#0c0c0e]/70 transition-all">
+                  <div className="flex-1 bg-[#1a2332] border border-white/5 rounded-xl p-5 hover:border-orange-500/20 hover:bg-[#1a2332]/70 transition-all">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
                       <h4 className="text-sm font-bold text-white">{exp.role}</h4>
                       <span className="text-[10px] font-mono text-neutral-500">{exp.period}</span>
@@ -615,7 +618,7 @@ export default function App() {
                     <p className="text-xs text-neutral-400 leading-relaxed mb-3">{exp.description}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {exp.tags.map((t) => (
-                        <span key={t} className="text-[9px] font-mono bg-[#141416] text-indigo-300 border border-indigo-500/10 px-1.5 py-0.5 rounded">
+                        <span key={t} className="text-[9px] font-mono bg-[#141416] text-orange-300 border border-orange-500/10 px-1.5 py-0.5 rounded">
                           {t}
                         </span>
                       ))}
@@ -646,11 +649,11 @@ export default function App() {
               <ScrollReveal key={group.category} delay={0.1 * i} direction={i % 2 === 0 ? 'left' : 'right'}>
                 <TiltCard tiltDeg={5} glare={true}>
                   <motion.div
-                    className="bg-[#0c0c0e] border border-white/5 rounded-xl p-5 hover:border-indigo-500/20 transition-all h-full"
+                    className="bg-[#1a2332] border border-white/5 rounded-xl p-5 hover:border-orange-500/20 transition-all h-full"
                     whileHover={{ y: -2 }}
                   >
                     <h5 className="text-[11px] font-mono text-white font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <span className="text-indigo-400">{group.icon}</span>
+                      <span className="text-orange-400">{group.icon}</span>
                       {group.category}
                     </h5>
                     <div className="flex flex-col gap-2.5">
@@ -665,8 +668,8 @@ export default function App() {
                           whileHover={{ x: 4 }}
                         >
                           <span className="relative flex items-center justify-center w-4 h-4">
-                            <span className="absolute inset-0 rounded-full bg-indigo-500/10 group-hover/skill:bg-indigo-500/30 scale-0 group-hover/skill:scale-100 transition-all duration-300" />
-                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500/40 group-hover/skill:bg-indigo-400 transition-colors shrink-0 relative" />
+                            <span className="absolute inset-0 rounded-full bg-orange-500/10 group-hover/skill:bg-orange-500/30 scale-0 group-hover/skill:scale-100 transition-all duration-300" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500/40 group-hover/skill:bg-orange-400 transition-colors shrink-0 relative" />
                           </span>
                           <span className="text-xs text-neutral-400 group-hover/skill:text-neutral-200 transition-colors">{skill}</span>
                         </motion.div>
@@ -688,7 +691,7 @@ export default function App() {
               whileHover={{ scale: 1.01 }}
               className="relative"
             >
-              <Quote className="w-8 h-8 text-indigo-500/20 absolute -top-4 -left-4 animate-float-slow" />
+              <Quote className="w-8 h-8 text-orange-500/20 absolute -top-4 -left-4 animate-float-slow" />
               <p className="text-lg sm:text-xl text-neutral-300 italic leading-relaxed font-light">
                 "Good code isn't just about making the computer understand — 
                 it's about making other developers understand too."
@@ -706,7 +709,7 @@ export default function App() {
         <section id="contact" className="py-24 px-6 max-w-4xl mx-auto">
           <ScrollReveal>
             <div className="text-center space-y-2 mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-[10px] font-mono uppercase text-indigo-400 font-bold tracking-wider">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full text-[10px] font-mono uppercase text-orange-400 font-bold tracking-wider">
                 <Send className="w-3 h-3" />
                 Get in Touch
               </div>
@@ -722,24 +725,24 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             {/* Info */}
             <ScrollReveal direction="left" className="md:col-span-5">
-              <div className="bg-[#0c0c0e] border border-white/5 p-6 rounded-xl space-y-6 hover:border-indigo-500/20 transition-all">
+              <div className="bg-[#1a2332] border border-white/5 p-6 rounded-xl space-y-6 hover:border-orange-500/20 transition-all">
                 <h4 className="text-[10px] font-bold text-neutral-200 uppercase tracking-wider font-mono">
                   Contact Info
                 </h4>
                 <div className="space-y-4 text-xs font-mono text-neutral-400">
-                  <div className="p-3 bg-[#050505] rounded-lg border border-white/5 space-y-1 hover:border-indigo-500/10 transition-all">
+                  <div className="p-3 bg-[#050505] rounded-lg border border-white/5 space-y-1 hover:border-orange-500/10 transition-all">
                     <div className="text-neutral-500 uppercase text-[9px] font-bold tracking-wider">Email</div>
                     <button onClick={handleCopyEmail}
-                      className="text-white hover:text-indigo-400 transition-colors font-semibold flex items-center gap-1.5 cursor-pointer text-left w-full break-all"
+                      className="text-white hover:text-orange-400 transition-colors font-semibold flex items-center gap-1.5 cursor-pointer text-left w-full break-all"
                     >
                       tgitau088@gmail.com
                       {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> : <Copy className="w-3.5 h-3.5 text-neutral-400 shrink-0" />}
                     </button>
                   </div>
-                  <div className="p-3 bg-[#050505] rounded-lg border border-white/5 space-y-1 hover:border-indigo-500/10 transition-all">
+                  <div className="p-3 bg-[#050505] rounded-lg border border-white/5 space-y-1 hover:border-orange-500/10 transition-all">
                     <div className="text-neutral-500 uppercase text-[9px] font-bold tracking-wider">GitHub</div>
                     <a href="https://github.com/Tony46117" target="_blank" rel="noreferrer"
-                      className="text-white hover:text-indigo-400 transition-colors font-semibold flex items-center gap-1"
+                      className="text-white hover:text-orange-400 transition-colors font-semibold flex items-center gap-1"
                     >
                       github.com/Tony46117 <ExternalLink className="w-3 h-3 shrink-0 text-neutral-500" />
                     </a>
@@ -750,31 +753,31 @@ export default function App() {
 
             {/* Form */}
             <ScrollReveal direction="right" className="md:col-span-7">
-              <div className="bg-[#0c0c0e] border border-white/5 p-6 rounded-xl hover:border-indigo-500/20 transition-all">
+              <div className="bg-[#1a2332] border border-white/5 p-6 rounded-xl hover:border-orange-500/20 transition-all">
                 <form onSubmit={handleContactSubmit} className="space-y-4 text-xs font-mono">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label htmlFor="contact-name" className="font-semibold text-neutral-500 uppercase tracking-wider text-[9px]">Name</label>
                       <input id="contact-name" type="text" required placeholder="Jane Doe" value={contactForm.name}
                         onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                        className="w-full px-3 py-2 bg-[#050505] border border-white/10 rounded-lg text-neutral-200 focus:outline-none focus:border-indigo-500 transition-colors" />
+                        className="w-full px-3 py-2 bg-[#050505] border border-white/10 rounded-lg text-neutral-200 focus:outline-none focus:border-orange-500 transition-colors" />
                     </div>
                     <div className="space-y-1.5">
                       <label htmlFor="contact-email" className="font-semibold text-neutral-500 uppercase tracking-wider text-[9px]">Email</label>
                       <input id="contact-email" type="email" required placeholder="jane@example.com" value={contactForm.email}
                         onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                        className="w-full px-3 py-2 bg-[#050505] border border-white/10 rounded-lg text-neutral-200 focus:outline-none focus:border-indigo-500 transition-colors" />
+                        className="w-full px-3 py-2 bg-[#050505] border border-white/10 rounded-lg text-neutral-200 focus:outline-none focus:border-orange-500 transition-colors" />
                     </div>
                   </div>
                   <div className="space-y-1.5">
                     <label htmlFor="contact-message" className="font-semibold text-neutral-500 uppercase tracking-wider text-[9px]">Message</label>
                     <textarea id="contact-message" required rows={3} placeholder="Tell me about your project..."
                       value={contactForm.message} onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#050505] border border-white/10 rounded-lg text-neutral-200 focus:outline-none focus:border-indigo-500 transition-colors leading-relaxed" />
+                      className="w-full px-3 py-2 bg-[#050505] border border-white/10 rounded-lg text-neutral-200 focus:outline-none focus:border-orange-500 transition-colors leading-relaxed" />
                   </div>
                   <MagneticButton strength={0.15} className="w-full">
                     <button type="submit" disabled={isSubmitting}
-                      className="w-full py-2.5 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-neutral-800 disabled:text-neutral-500 text-white font-semibold rounded-lg transition-all cursor-pointer shadow-md shadow-indigo-600/10 hover:-translate-y-0.5"
+                      className="w-full py-2.5 flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-500 disabled:bg-neutral-800 disabled:text-neutral-500 text-white font-semibold rounded-lg transition-all cursor-pointer shadow-md shadow-orange-600/10 hover:-translate-y-0.5"
                     >
                       <Send className="w-3.5 h-3.5" />
                       {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -812,7 +815,7 @@ export default function App() {
         {/* Footer */}
         <footer className="relative border-t border-white/5 bg-[#030303] py-12 px-6 text-center text-neutral-600 text-xs font-mono space-y-4 overflow-hidden">
           {/* Subtle footer gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-indigo-500/[0.02] to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-orange-500/[0.02] to-transparent pointer-events-none" />
           
           <div className="flex justify-center gap-6 text-neutral-400 relative z-10">
             {navLinks.map((link) => (
@@ -853,7 +856,7 @@ function BackToTop() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-8 right-8 z-50 p-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-lg shadow-indigo-600/20 transition-all hover:-translate-y-1 hover:shadow-indigo-600/40 cursor-pointer"
+          className="fixed bottom-8 right-8 z-50 p-3 bg-orange-600 hover:bg-orange-500 text-white rounded-full shadow-lg shadow-orange-600/20 transition-all hover:-translate-y-1 hover:shadow-orange-600/40 cursor-pointer"
         >
           <ChevronDown className="w-4 h-4 rotate-180" />
         </motion.button>
