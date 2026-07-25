@@ -58,7 +58,8 @@ const ABOUT_ME = {
   location: 'Nairobi, Kenya',
   email: 'tgitau088@gmail.com',
   github: 'https://github.com/Tony46117',
-  bio: 'I architect high-performance software systems — from Python/FastAPI microservices to React frontends. Every system I design prioritizes speed, scalability, and clean architecture.',
+  tagline: 'I architect scalable systems.',
+  bio: 'I build high-performance software — from Python/FastAPI microservices to React frontends. Every system I design prioritizes speed, scalability, and clean architecture.',
   funFact: 'When I\'m not engineering APIs, you\'ll find me exploring distributed systems design patterns or contributing to open-source projects.',
 };
 
@@ -373,10 +374,10 @@ export default function App() {
                   </motion.div>
 
                   {/* Professional headline */}
-                  <div className="h-28 sm:h-24 flex flex-col justify-center">
+                  <div className="h-auto min-h-[3.5rem] sm:min-h-[4.5rem] flex flex-col justify-center">
                     <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight glow">
                       <span className="gradient-text">
-                        {ABOUT_ME.bio.split('.')[0]}.
+                        {ABOUT_ME.tagline}
                       </span>
                     </h1>
                   </div>
@@ -387,10 +388,7 @@ export default function App() {
                     transition={{ duration: 0.6, delay: 0.3 }}
                     className="text-neutral-400 text-base sm:text-lg max-w-2xl leading-relaxed"
                   >
-                    I build <span className="text-indigo-400 font-semibold">high-performance software</span> — 
-                    from <span className="text-indigo-400 font-semibold">Python/FastAPI</span> microservices 
-                    to <span className="text-indigo-400 font-semibold">React</span> frontends. 
-                    Every system I design prioritizes speed, scalability, and clean architecture.
+                    {ABOUT_ME.bio}
                   </motion.p>
 
                   {/* Location & Fun fact */}
