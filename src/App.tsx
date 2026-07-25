@@ -6,29 +6,22 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  ArrowRight, Check, Copy, Send,
+  ArrowRight, Check, Copy, Send, ChevronDown,
   ArrowUpRight, AlertCircle, CheckCircle2, ExternalLink,
   Menu, X, Github, Mail, Terminal, Code2,
-  Database, Brain, Cpu, Zap, ChevronDown,
+  Database, Brain, Cpu, Zap,
   Layers, Server, Star, Rocket,
-  GitBranch, Quote, ShieldCheck,
-  Sparkles
+  GitBranch, Quote, ShieldCheck
 } from 'lucide-react';
 // @ts-ignore
 import programmerBg from './assets/images/programmer_bg_1784650977138.jpg';
-import profilePhoto from './assets/images/photo.png';
-import Balatro from './components/Balatro';
+// @ts-ignore
+import profilePhoto from './assets/images/Screenshot_20260724_135823.png';
 import ApiPlayground from './components/ApiPlayground';
 import ScrollReveal from './components/ScrollReveal';
-import ScrollProgress from './components/ScrollProgress';
-import ParticleNetwork from './components/ParticleNetwork';
 import CodeTerminal from './components/CodeTerminal';
 import AnimatedCounter from './components/AnimatedCounter';
 import TiltCard from './components/TiltCard';
-import CursorFollower from './components/CursorFollower';
-import TextScramble from './components/TextScramble';
-import Spotlight from './components/Spotlight';
-import NoiseOverlay from './components/NoiseOverlay';
 import SectionDivider from './components/SectionDivider';
 import MagneticButton from './components/MagneticButton';
 
@@ -133,14 +126,6 @@ const EXPERIENCES: Experience[] = [
   },
 ];
 
-const PROGRAMMER_WORDS = [
-  "I architect scalable systems.",
-  "I build high-performance APIs.",
-  "I craft elegant user interfaces.",
-  "I optimize database queries.",
-  "I engineer fullstack solutions.",
-];
-
 // ────────────────────────────────────────────────────────
 // Hooks
 // ────────────────────────────────────────────────────────
@@ -166,37 +151,12 @@ function useActiveSection() {
   return active;
 }
 
-function useScrollVelocity() {
-  const [velocity, setVelocity] = useState(0);
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let lastTime = performance.now();
-    let rafId: number;
-    const handle = () => {
-      const now = performance.now();
-      const dt = now - lastTime;
-      if (dt > 0) {
-        const currentScrollY = window.scrollY;
-        const v = Math.abs(currentScrollY - lastScrollY) / dt * 1000;
-        setVelocity(Math.min(v, 2000));
-        lastScrollY = currentScrollY;
-        lastTime = now;
-      }
-      rafId = requestAnimationFrame(handle);
-    };
-    rafId = requestAnimationFrame(handle);
-    return () => cancelAnimationFrame(rafId);
-  }, []);
-  return velocity;
-}
-
 // ────────────────────────────────────────────────────────
 // Component
 // ────────────────────────────────────────────────────────
 
 export default function App() {
   const activeSection = useActiveSection();
-  const scrollVelocity = useScrollVelocity();
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -257,22 +217,12 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#050505] text-[#e5e5e5] font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
 
-      {/* Global Components */}
-      <CursorFollower />
-      <Spotlight opacity={0.8} size={500} />
-      <NoiseOverlay opacity={0.02} />
-      <ScrollProgress />
-
-      {/* Particle Network (over background) */}
-      <ParticleNetwork />
-
       {/* Background */}
       <div
-        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-20 pointer-events-none"
+        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-[0.08] pointer-events-none"
         style={{ backgroundImage: `url(${programmerBg})` }}
       />
-      <Balatro className="opacity-10" />
-      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#050505]/90 via-transparent to-[#050505]/95 pointer-events-none" />
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#050505]/95 via-transparent to-[#050505]/95 pointer-events-none" />
       <div className="fixed inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_50%,#050505_85%)] pointer-events-none" />
 
       <div className="relative z-10">
@@ -290,7 +240,7 @@ export default function App() {
             <MagneticButton strength={0.2}>
               <button onClick={() => scrollTo('hero')} className="flex items-center gap-2.5 group cursor-pointer">
                 <span className="relative flex items-center justify-center w-8 h-8">
-                  <span className="absolute inset-0 rounded-full bg-indigo-500/20 animate-pulse" />
+                  <span className="absolute inset-0 rounded-full bg-indigo-500/20" />
                   <span className="w-2 h-2 rounded-full bg-indigo-400 group-hover:scale-125 transition-transform relative" />
                 </span>
                 <span className="font-mono text-xs text-white font-bold tracking-tight">
@@ -356,182 +306,146 @@ export default function App() {
         </motion.nav>
 
         {/* ─── Hero ─── */}
-        <section id="hero" className="relative pt-24 pb-16 px-6 max-w-4xl mx-auto min-h-[85vh] flex flex-col justify-center">
+        <section id="hero" className="relative pt-24 pb-16 px-6 max-w-5xl mx-auto min-h-[85vh] flex flex-col justify-center">
           <ScrollReveal>
-            <div className="space-y-6">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12 gap-8">
 
-              <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
-                {/* Profile Photo */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  transition={{ duration: 0.8, ease: 'easeOut' }}
-                  className="lg:col-span-2 flex justify-center lg:justify-start"
-                >
-                  <div className="relative group">
-                    {/* Animated blob background */}
-                    <div className="absolute -inset-4 bg-gradient-to-br from-indigo-600/30 via-purple-600/20 to-cyan-600/30 rounded-full blur-2xl animate-breathe group-hover:scale-110 transition-transform duration-700" />
-                    
-                    {/* Outer ring with rotating gradient */}
-                    <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full p-0.5 bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-500 animate-spin-slow [animation-duration:8s]">
-                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-600/20 via-purple-600/10 to-cyan-600/20 animate-pulse" />
-                      
-                      {/* Inner container */}
-                      <div className="relative w-full h-full rounded-full overflow-hidden bg-[#0c0c0e]">
-                        <img
-                          src={profilePhoto}
-                          alt="Antony Gitau Kihara"
-                          className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
-                        />
-                        
-                        {/* Overlay gradient on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      </div>
-                    </div>
-
-                    {/* Orbiting dots */}
-                    <motion.div
-                      className="absolute -top-2 -right-2 w-4 h-4 bg-indigo-400 rounded-full"
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    <motion.div
-                      className="absolute -bottom-1 -left-1 w-3 h-3 bg-purple-400 rounded-full"
-                      animate={{ scale: [1, 1.4, 1] }}
-                      transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
-                    />
-                    <motion.div
-                      className="absolute top-1/2 -right-3 w-2 h-2 bg-cyan-400 rounded-full"
-                      animate={{ scale: [1, 1.5, 1] }}
-                      transition={{ duration: 1.8, repeat: Infinity, delay: 1 }}
-                    />
-
-                    {/* Status badge */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 1.2, duration: 0.4 }}
-                      className="absolute -bottom-2 -right-2 bg-emerald-500/90 text-white text-[10px] font-mono font-bold px-3 py-1.5 rounded-full shadow-lg backdrop-blur-sm border border-emerald-400/30"
-                    >
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                        Available
-                      </span>
-                    </motion.div>
+              {/* ─── Profile Photo ─── */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="relative shrink-0 mx-auto lg:mx-0"
+              >
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56">
+                  {/* Static gradient border ring */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500/40 via-purple-500/30 to-indigo-400/40 p-[3px]">
+                    <div className="w-full h-full rounded-full bg-[#050505]" />
                   </div>
+
+                  {/* Image container */}
+                  <div className="absolute inset-[3px] rounded-full overflow-hidden bg-[#0c0c0e] shadow-xl shadow-indigo-500/10">
+                    <img
+                      src={profilePhoto}
+                      alt="Antony Gitau Kihara"
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+
+                  {/* Status indicator dot */}
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 1, type: 'spring' }}
+                    className="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full border-[3px] border-[#050505] flex items-center justify-center z-10"
+                  >
+                    <span className="w-2 h-2 bg-emerald-400 rounded-full" />
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* ─── Hero Content ─── */}
+              <div className="space-y-6 flex-1">
+                {/* Terminal badge */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900/80 border border-white/5 rounded-full text-xs font-mono text-indigo-400 hover:border-indigo-500/20 transition-all"
+                >
+                  <Terminal className="w-3.5 h-3.5" />
+                  <span className="text-neutral-500">$</span>
+                  <motion.span
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                  >_</motion.span>
+                  <span className="text-neutral-300">./portfolio --fullstack</span>
                 </motion.div>
 
-                {/* Text Content */}
-                <div className="lg:col-span-3 space-y-6">
-                  {/* Terminal badge */}
+                <div className="space-y-3">
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4 }}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900/80 border border-white/5 rounded-full text-xs font-mono text-indigo-400 group hover:border-indigo-500/20 transition-all"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    className="text-xs font-mono font-semibold tracking-wider uppercase gradient-text-subtle"
                   >
-                    <Terminal className="w-3.5 h-3.5" />
-                    <span className="text-neutral-500">$</span>
-                    <motion.span
-                      animate={{ opacity: [1, 0] }}
-                      transition={{ duration: 0.8, repeat: Infinity }}
-                    >_</motion.span>
-                    <span className="text-neutral-300">./portfolio --fullstack</span>
-                    <Sparkles className="w-3 h-3 text-indigo-400/50 group-hover:text-indigo-400 transition-colors" />
+                    {ABOUT_ME.name}
                   </motion.div>
 
-                  <div className="space-y-3">
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.1 }}
-                      className="text-xs font-mono font-semibold tracking-wider uppercase gradient-text-subtle"
-                    >
-                      {ABOUT_ME.name}
-                    </motion.div>
-
-                    {/* Animated word cycler with scramble effect */}
-                    <div className="h-28 sm:h-24 flex flex-col justify-center">
-                      <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight glow">
-                        <TextScramble
-                          texts={PROGRAMMER_WORDS}
-                          className="gradient-text"
-                          letterSpeed={30}
-                          nextLetterSpeed={20}
-                          pauseTime={3500}
-                        />
-                      </h1>
-                    </div>
-
-                    <motion.p
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.3 }}
-                      className="text-neutral-400 text-base sm:text-lg max-w-2xl leading-relaxed"
-                    >
-                      I build <span className="text-indigo-400 font-semibold">high-performance software</span> — 
-                      from <span className="text-indigo-400 font-semibold">Python/FastAPI</span> microservices 
-                      to <span className="text-indigo-400 font-semibold">React</span> frontends. 
-                      Every system I design prioritizes speed, scalability, and clean architecture.
-                    </motion.p>
-
-                    {/* Location & Fun fact */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.4 }}
-                      className="flex flex-wrap gap-4 text-xs text-neutral-500"
-                    >
-                      <span className="flex items-center gap-1.5">
-                        <span className="text-base">📍</span>
-                        {ABOUT_ME.location}
+                  {/* Professional headline */}
+                  <div className="h-28 sm:h-24 flex flex-col justify-center">
+                    <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight glow">
+                      <span className="gradient-text">
+                        {ABOUT_ME.bio.split('.')[0]}.
                       </span>
-                      <span className="text-neutral-700/50 hidden sm:inline">|</span>
-                      <span className="flex items-center gap-1.5">
-                        <Brain className="w-3.5 h-3.5 text-indigo-400/60" />
-                        <span className="text-neutral-500 italic">{ABOUT_ME.funFact}</span>
-                      </span>
-                    </motion.div>
+                    </h1>
                   </div>
-                </div>
-              </div>
 
-              {/* CTA Buttons - with magnetic effect */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="flex flex-wrap items-center gap-4 pt-2"
-              >
-                <MagneticButton strength={0.25}>
-                  <button onClick={() => scrollTo('contact')}
-                    className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/40 hover:-translate-y-0.5 cursor-pointer"
-                    data-cursor-hover
+                  <motion.p
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="text-neutral-400 text-base sm:text-lg max-w-2xl leading-relaxed"
                   >
-                    Initiate Contact <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </MagneticButton>
-                <MagneticButton strength={0.2}>
-                  <button onClick={handleCopyEmail}
-                    className="px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-medium text-xs rounded-lg transition-all border border-white/5 flex items-center gap-2 cursor-pointer hover:-translate-y-0.5"
-                    data-cursor-hover
+                    I build <span className="text-indigo-400 font-semibold">high-performance software</span> — 
+                    from <span className="text-indigo-400 font-semibold">Python/FastAPI</span> microservices 
+                    to <span className="text-indigo-400 font-semibold">React</span> frontends. 
+                    Every system I design prioritizes speed, scalability, and clean architecture.
+                  </motion.p>
+
+                  {/* Location & Fun fact */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                    className="flex flex-wrap gap-4 text-xs text-neutral-500"
                   >
-                    {copiedEmail ? <><Check className="w-3.5 h-3.5 text-emerald-400" /> Copied</> : <><Copy className="w-3.5 h-3.5" /> Copy E-Mail</>}
-                  </button>
-                </MagneticButton>
-                <MagneticButton strength={0.2}>
-                  <a href="https://github.com/Tony46117" target="_blank" rel="noreferrer"
-                    className="px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-medium text-xs rounded-lg transition-all border border-white/5 flex items-center gap-2 hover:-translate-y-0.5"
-                    data-cursor-hover
-                  >
-                    <Github className="w-3.5 h-3.5" /> GitHub
-                  </a>
-                </MagneticButton>
-              </motion.div>
+                    <span className="flex items-center gap-1.5">
+                      <span className="text-base">📍</span>
+                      {ABOUT_ME.location}
+                    </span>
+                    <span className="text-neutral-700/50 hidden sm:inline">|</span>
+                    <span className="flex items-center gap-1.5">
+                      <Brain className="w-3.5 h-3.5 text-indigo-400/60" />
+                      <span className="text-neutral-500 italic">{ABOUT_ME.funFact}</span>
+                    </span>
+                  </motion.div>
+                </div>
+
+                {/* CTA Buttons - with magnetic effect */}
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="flex flex-wrap items-center gap-4 pt-2"
+                >
+                  <MagneticButton strength={0.25}>
+                    <button onClick={() => scrollTo('contact')}
+                      className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/40 hover:-translate-y-0.5 cursor-pointer"
+                    >
+                      Initiate Contact <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </MagneticButton>
+                  <MagneticButton strength={0.2}>
+                    <button onClick={handleCopyEmail}
+                      className="px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-medium text-xs rounded-lg transition-all border border-white/5 flex items-center gap-2 cursor-pointer hover:-translate-y-0.5"
+                    >
+                      {copiedEmail ? <><Check className="w-3.5 h-3.5 text-emerald-400" /> Copied</> : <><Copy className="w-3.5 h-3.5" /> Copy E-Mail</>}
+                    </button>
+                  </MagneticButton>
+                  <MagneticButton strength={0.2}>
+                    <a href="https://github.com/Tony46117" target="_blank" rel="noreferrer"
+                      className="px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-medium text-xs rounded-lg transition-all border border-white/5 flex items-center gap-2 hover:-translate-y-0.5"
+                    >
+                      <Github className="w-3.5 h-3.5" /> GitHub
+                    </a>
+                  </MagneticButton>
+                </motion.div>
+              </div>
             </div>
           </ScrollReveal>
 
-          {/* Animated Stats Counters */}
+          {/* Stats Counters */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -544,22 +458,16 @@ export default function App() {
             <AnimatedCounter to={98} suffix="%" label="Test Coverage" icon={<ShieldCheck className="w-5 h-5" />} />
           </motion.div>
 
-          {/* Scroll velocity indicator */}
-          <motion.div className="mt-8 flex justify-center relative" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
-            <button onClick={() => scrollTo('code')} className="cursor-pointer group relative">
+          {/* Scroll indicator */}
+          <motion.div className="mt-8 flex justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
+            <button onClick={() => scrollTo('code')} className="cursor-pointer group">
               <motion.div
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="text-neutral-600 group-hover:text-indigo-400 transition-colors relative"
+                className="text-neutral-600 group-hover:text-indigo-400 transition-colors"
               >
                 <ChevronDown className="w-6 h-6" />
               </motion.div>
-              {/* Scroll velocity ring */}
-              <motion.div
-                className="absolute -inset-4 rounded-full border border-indigo-500/10"
-                animate={{ scale: [1, 1 + Math.min(scrollVelocity / 2000, 0.3)], opacity: [0.3, 0] }}
-                transition={{ duration: 0.5 }}
-              />
             </button>
           </motion.div>
         </section>
@@ -585,15 +493,9 @@ export default function App() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <motion.div
-              whileHover={{ scale: 1.005 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-              className="animated-border rounded-xl"
-            >
-              <div className="relative rounded-xl overflow-hidden">
-                <CodeTerminal />
-              </div>
-            </motion.div>
+            <div className="relative rounded-xl overflow-hidden">
+              <CodeTerminal />
+            </div>
           </ScrollReveal>
         </section>
 
@@ -831,7 +733,6 @@ export default function App() {
                     <div className="text-neutral-500 uppercase text-[9px] font-bold tracking-wider">Email</div>
                     <button onClick={handleCopyEmail}
                       className="text-white hover:text-indigo-400 transition-colors font-semibold flex items-center gap-1.5 cursor-pointer text-left w-full break-all"
-                      data-cursor-hover
                     >
                       tgitau088@gmail.com
                       {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> : <Copy className="w-3.5 h-3.5 text-neutral-400 shrink-0" />}
@@ -841,7 +742,6 @@ export default function App() {
                     <div className="text-neutral-500 uppercase text-[9px] font-bold tracking-wider">GitHub</div>
                     <a href="https://github.com/Tony46117" target="_blank" rel="noreferrer"
                       className="text-white hover:text-indigo-400 transition-colors font-semibold flex items-center gap-1"
-                      data-cursor-hover
                     >
                       github.com/Tony46117 <ExternalLink className="w-3 h-3 shrink-0 text-neutral-500" />
                     </a>
@@ -877,7 +777,6 @@ export default function App() {
                   <MagneticButton strength={0.15} className="w-full">
                     <button type="submit" disabled={isSubmitting}
                       className="w-full py-2.5 flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-neutral-800 disabled:text-neutral-500 text-white font-semibold rounded-lg transition-all cursor-pointer shadow-md shadow-indigo-600/10 hover:-translate-y-0.5"
-                      data-cursor-hover
                     >
                       <Send className="w-3.5 h-3.5" />
                       {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -952,16 +851,13 @@ function BackToTop() {
     <AnimatePresence>
       {visible && (
         <motion.button
-          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 20, scale: 0.8 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-8 right-8 z-50 p-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-lg shadow-indigo-600/20 transition-all hover:-translate-y-1 hover:shadow-indigo-600/40 cursor-pointer group"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          data-cursor-hover
+          className="fixed bottom-8 right-8 z-50 p-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-lg shadow-indigo-600/20 transition-all hover:-translate-y-1 hover:shadow-indigo-600/40 cursor-pointer"
         >
-          <ChevronDown className="w-4 h-4 rotate-180 group-hover:-translate-y-0.5 transition-transform" />
+          <ChevronDown className="w-4 h-4 rotate-180" />
         </motion.button>
       )}
     </AnimatePresence>
