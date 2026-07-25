@@ -272,7 +272,7 @@ export default function CodeTerminal() {
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.6, repeat: Infinity }}
-                className="inline-block w-[6px] h-[14px] bg-indigo-400 ml-[1px] align-middle"
+                className="inline-block w-[6px] h-[14px] bg-orange-400 ml-[1px] align-middle"
               />
             )}
             {isPaused && (

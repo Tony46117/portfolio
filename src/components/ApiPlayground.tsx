@@ -163,7 +163,7 @@ export default function ApiPlayground() {
       {/* Header */}
       <div className="bg-neutral-950 px-6 py-4 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-indigo-500/10 text-indigo-400 rounded-lg border border-indigo-500/20">
+          <div className="p-2.5 bg-orange-500/10 text-orange-400 rounded-lg border border-orange-500/20">
             <Server className="w-5 h-5" />
           </div>
           <div>
@@ -251,24 +251,24 @@ export default function ApiPlayground() {
                 </div>
                 <div className="space-y-3">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center text-xs">
-                    <div><span className="font-mono font-bold text-indigo-400">name</span><span className="text-red-400 ml-0.5">*</span></div>
+                    <div><span className="font-mono font-bold text-orange-400">name</span><span className="text-red-400 ml-0.5">*</span></div>
                     <div className="sm:col-span-2">
                       <input type="text" value={name} onChange={(e) => setName(e.target.value)}
-                        className="w-full px-3 py-1.5 bg-neutral-950 border border-white/10 rounded text-neutral-200 focus:outline-none focus:border-indigo-500 text-xs font-mono" />
+                        className="w-full px-3 py-1.5 bg-neutral-950 border border-white/10 rounded text-neutral-200 focus:outline-none focus:border-orange-500 text-xs font-mono" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center text-xs">
-                    <div><span className="font-mono font-bold text-indigo-400">email</span><span className="text-red-400 ml-0.5">*</span></div>
+                    <div><span className="font-mono font-bold text-orange-400">email</span><span className="text-red-400 ml-0.5">*</span></div>
                     <div className="sm:col-span-2">
                       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-3 py-1.5 bg-neutral-950 border border-white/10 rounded text-neutral-200 focus:outline-none focus:border-indigo-500 text-xs font-mono" />
+                        className="w-full px-3 py-1.5 bg-neutral-950 border border-white/10 rounded text-neutral-200 focus:outline-none focus:border-orange-500 text-xs font-mono" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-start text-xs">
-                    <div><span className="font-mono font-bold text-indigo-400">message</span><span className="text-red-400 ml-0.5">*</span></div>
+                    <div><span className="font-mono font-bold text-orange-400">message</span><span className="text-red-400 ml-0.5">*</span></div>
                     <div className="sm:col-span-2">
                       <textarea rows={2} value={message} onChange={(e) => setMessage(e.target.value)}
-                        className="w-full px-3 py-1.5 bg-neutral-950 border border-white/10 rounded text-neutral-200 focus:outline-none focus:border-indigo-500 text-xs font-sans" />
+                        className="w-full px-3 py-1.5 bg-neutral-950 border border-white/10 rounded text-neutral-200 focus:outline-none focus:border-orange-500 text-xs font-sans" />
                     </div>
                   </div>
                 </div>
@@ -283,10 +283,10 @@ export default function ApiPlayground() {
                   Query Parameters
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center text-xs">
-                  <div><span className="font-mono font-bold text-indigo-400">optimization_level</span><span className="text-red-400 ml-0.5">*</span></div>
+                  <div><span className="font-mono font-bold text-orange-400">optimization_level</span><span className="text-red-400 ml-0.5">*</span></div>
                   <div className="sm:col-span-2">
                     <select value={queryLevel} onChange={(e) => setQueryLevel(e.target.value)}
-                      className="w-full px-3 py-1.5 bg-neutral-950 border border-white/10 rounded text-neutral-200 focus:outline-none focus:border-indigo-500 text-xs font-mono">
+                      className="w-full px-3 py-1.5 bg-neutral-950 border border-white/10 rounded text-neutral-200 focus:outline-none focus:border-orange-500 text-xs font-mono">
                       <option value="optimized">optimized</option>
                       <option value="unoptimized">unoptimized</option>
                     </select>
@@ -301,7 +301,7 @@ export default function ApiPlayground() {
             <button
               disabled={isExecuting}
               onClick={handleExecute}
-              className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-neutral-800 disabled:text-neutral-500 text-white font-semibold rounded-lg text-sm transition-all cursor-pointer shadow-lg shadow-indigo-600/10"
+              className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-orange-600 hover:bg-orange-500 disabled:bg-neutral-800 disabled:text-neutral-500 text-white font-semibold rounded-lg text-sm transition-all cursor-pointer shadow-lg shadow-orange-600/10"
             >
               <Send className="w-4 h-4" />
               {isExecuting ? 'Simulating response...' : `Execute ${selectedEndpoint.method} Request`}
@@ -335,7 +335,7 @@ export default function ApiPlayground() {
                   </div>
                   <div className="p-4 max-h-[280px] overflow-y-auto">
                     {isExecuting ? (
-                      <div className="flex items-center gap-3 text-indigo-400 py-3">
+                      <div className="flex items-center gap-3 text-orange-400 py-3">
                         <RefreshCw className="w-4 h-4 animate-spin" />
                         <span className="text-xs">Processing request...</span>
                       </div>

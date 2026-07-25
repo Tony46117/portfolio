@@ -74,7 +74,7 @@ export default function TiltCard({ children, className = '', tiltDeg = 8, glare 
       )}
       {/* Inner edge glow */}
       {isHovered && (
-        <div className="absolute inset-0 rounded-[inherit] pointer-events-none z-10 ring-1 ring-indigo-500/20" />
+        <div className="absolute inset-0 rounded-[inherit] pointer-events-none z-10 ring-1 ring-orange-500/20" />
       )}
     </motion.div>
   );
