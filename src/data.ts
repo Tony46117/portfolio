@@ -43,7 +43,7 @@ export const projectsData: Project[] = [
     techStack: ['Python', 'FastAPI', 'Redis', 'Docker', 'Asyncio', 'Pytest'],
     role: 'Lead Backend Engineer',
     metrics: [
-      { label: 'Throughput', value: '8,400+ rps', description: 'Under heavy load profiles' },
+      { label: 'Throughput', value: '1,200+ rps', description: 'Under heavy load profiles' },
       { label: 'API Latency', value: '< 14ms', description: '99th percentile response time' },
       { label: 'Test Coverage', value: '98%', description: 'Fully mocked unit & integration tests' }
     ],
