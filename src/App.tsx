@@ -67,7 +67,7 @@ const FEATURED_PROJECTS: Project[] = [
   {
     id: 'api-orchestrator',
     title: 'FastAPI Microservice Orchestrator',
-    description: 'High-throughput async microservice coordinator with Redis rate-limiting, connection pooling, and 8,400+ req/s throughput.',
+    description: 'High-throughput async microservice coordinator with Redis rate-limiting, connection pooling, and 1,200+ req/s throughput.',
     tags: ['Python', 'FastAPI', 'Redis', 'Asyncio', 'Docker'],
     github: 'https://github.com/Tony46117',
   },
@@ -453,7 +453,7 @@ export default function App() {
             className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 py-6 border-y border-white/5"
           >
             <AnimatedCounter to={4} suffix="+" label="Years Experience" icon={<Star className="w-5 h-5" />} />
-            <AnimatedCounter to={8400} suffix="+ rps" label="Max Throughput" icon={<Zap className="w-5 h-5" />} />
+            <AnimatedCounter to={1200} suffix="+ rps" label="Max Throughput" icon={<Zap className="w-5 h-5" />} />
             <AnimatedCounter to={18} suffix="x" label="Query Speedup" icon={<Brain className="w-5 h-5" />} />
             <AnimatedCounter to={98} suffix="%" label="Test Coverage" icon={<ShieldCheck className="w-5 h-5" />} />
           </motion.div>
