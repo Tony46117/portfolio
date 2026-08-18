@@ -3,129 +3,68 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  ArrowRight, Check, Copy, Send, ChevronDown,
-  ArrowUpRight, AlertCircle, CheckCircle2, ExternalLink,
-  Menu, X, Github, Mail, Terminal, Code2,
-  Database, Brain, Cpu, Zap,
-  Layers, Server, Star, Rocket,
-  GitBranch, Quote, ShieldCheck
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Menu,
+  X,
+  Github,
+  Mail,
+  MapPin,
+  Send,
+  Check,
+  ExternalLink,
+  Sparkles,
+  Quote,
+  Search,
+  PenTool,
+  LifeBuoy,
+  Code2,
+  Server,
+  Layers,
+  Wrench,
+  Cpu,
+  Rocket,
+  ChevronDown,
 } from 'lucide-react';
-// @ts-ignore
-import programmerBg from './assets/images/programmer_bg_1784650977138.jpg';
-// @ts-ignore
+import type { ReactNode, FormEvent } from 'react';
 import profilePhoto from './assets/images/Screenshot_20260724_135823.png';
-import ApiPlayground from './components/ApiPlayground';
 import ScrollReveal from './components/ScrollReveal';
-import CodeTerminal from './components/CodeTerminal';
 import AnimatedCounter from './components/AnimatedCounter';
-import TiltCard from './components/TiltCard';
-import SectionDivider from './components/SectionDivider';
-import MagneticButton from './components/MagneticButton';
+import {
+  about,
+  heroTech,
+  stats,
+  projects,
+  skillGroups,
+  experience,
+  approach,
+  testimonials,
+} from './data';
 
-// ────────────────────────────────────────────────────────
-// Data
-// ────────────────────────────────────────────────────────
+const NAV_LINKS = [
+  { id: 'about', label: 'About' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'testimonials', label: 'Testimonials' },
+  { id: 'contact', label: 'Contact' },
+];
 
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  link?: string;
-  github?: string;
-}
-
-interface SkillGroup {
-  category: string;
-  items: string[];
-  icon: React.ReactNode;
-}
-
-interface Experience {
-  role: string;
-  company: string;
-  period: string;
-  description: string;
-  tags: string[];
-}
-
-const ABOUT_ME = {
-  name: 'Antony Gitau Kihara',
-  title: 'Backend-Focused Full-Stack Software Engineer',
-  location: 'Nairobi, Kenya',
-  email: 'tgitau088@gmail.com',
-  github: 'https://github.com/Tony46117',
-  tagline: 'I architect scalable systems.',
-  bio: 'I build high-performance software — from Python/FastAPI microservices to React frontends. Every system I design prioritizes speed, scalability, and clean architecture.',
-  funFact: 'When I\'m not engineering APIs, you\'ll find me exploring distributed systems design patterns or contributing to open-source projects.',
+const SKILL_ICONS: Record<string, ReactNode> = {
+  Languages: <Code2 className="w-4 h-4" />,
+  Backend: <Server className="w-4 h-4" />,
+  Frontend: <Layers className="w-4 h-4" />,
+  Tools: <Wrench className="w-4 h-4" />,
 };
 
-const FEATURED_PROJECTS: Project[] = [
-  {
-    id: 'api-orchestrator',
-    title: 'FastAPI Microservice Orchestrator',
-    description: 'High-throughput async microservice coordinator with Redis rate-limiting, connection pooling, and 1,200+ req/s throughput.',
-    tags: ['Python', 'FastAPI', 'Redis', 'Asyncio', 'Docker'],
-    github: 'https://github.com/Tony46117',
-  },
-  {
-    id: 'query-optimizer',
-    title: 'E-Commerce Ledger Engine',
-    description: 'Double-entry transactional ledger with PostgreSQL window functions, compound indexing, and 18x query speed improvement.',
-    tags: ['Python', 'PostgreSQL', 'SQLAlchemy', 'React'],
-    github: 'https://github.com/Tony46117',
-  },
-  {
-    id: 'model-architect',
-    title: 'SQL-to-FastAPI Generator',
-    description: 'Full-stack reactive workspace that maps SQL schemas and instantly generates valid Pydantic models & FastAPI route templates.',
-    tags: ['React', 'TypeScript', 'Tailwind', 'Pydantic'],
-    github: 'https://github.com/Tony46117',
-  },
-];
-
-const SKILLS_LIST: SkillGroup[] = [
-  {
-    category: 'Backend',
-    items: ['Python', 'FastAPI', 'Pydantic v2', 'Django', 'SQLAlchemy', 'Uvicorn'],
-    icon: <Server className="w-3.5 h-3.5" />,
-  },
-  {
-    category: 'Databases',
-    items: ['PostgreSQL', 'Redis', 'SQL', 'MongoDB', 'ACID', 'Connection Pooling'],
-    icon: <Database className="w-3.5 h-3.5" />,
-  },
-  {
-    category: 'Frontend',
-    items: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite', 'Next.js'],
-    icon: <Code2 className="w-3.5 h-3.5" />,
-  },
-  {
-    category: 'DevOps',
-    items: ['Docker', 'Git', 'GitHub Actions', 'Linux', 'Pytest', 'CI/CD'],
-    icon: <Cpu className="w-3.5 h-3.5" />,
-  },
-];
-
-const EXPERIENCES: Experience[] = [
-  {
-    role: 'Backend Software Engineer',
-    company: 'Freelance · Contract',
-    period: '2023 — Present',
-    description: 'Architected high-throughput microservices with FastAPI, PostgreSQL, and Redis. Delivered scalable API solutions with 98%+ test coverage and sub-15ms p99 latency.',
-    tags: ['FastAPI', 'PostgreSQL', 'Redis', 'Docker', 'CI/CD'],
-  },
-  {
-    role: 'Full-Stack Developer',
-    company: 'Independent Projects',
-    period: '2022 — Present',
-    description: 'Built full-stack applications from schema to deployment. Specialized in Python backends with clean React frontends and optimized database architectures.',
-    tags: ['React', 'TypeScript', 'Python', 'SQL', 'REST APIs'],
-  },
-];
+const STAT_ICONS: Record<string, ReactNode> = {
+  'Years Experience': <Sparkles className="w-5 h-5" />,
+  'Projects Built': <Layers className="w-5 h-5" />,
+  Technologies: <Cpu className="w-5 h-5" />,
+  'Live Deployments': <Rocket className="w-5 h-5" />,
+};
 
 // ────────────────────────────────────────────────────────
 // Hooks
@@ -134,14 +73,14 @@ const EXPERIENCES: Experience[] = [
 function useActiveSection() {
   const [active, setActive] = useState('hero');
   useEffect(() => {
-    const sections = ['hero', 'code', 'playground', 'projects', 'experience', 'skills', 'contact'];
+    const sections = ['hero', ...NAV_LINKS.map((l) => l.id)];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) setActive(entry.target.id);
         });
       },
-      { threshold: 0.2, rootMargin: '-80px 0px 0px 0px' }
+      { threshold: 0.25, rootMargin: '-80px 0px 0px 0px' }
     );
     sections.forEach((id) => {
       const el = document.getElementById(id);
@@ -153,714 +92,760 @@ function useActiveSection() {
 }
 
 // ────────────────────────────────────────────────────────
-// Component
+// App
 // ────────────────────────────────────────────────────────
 
 export default function App() {
   const activeSection = useActiveSection();
-
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
-
-  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [validationMsg, setValidationMsg] = useState<string | null>(null);
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText('tgitau088@gmail.com');
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
-  };
-
-  const handleContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-    setValidationMsg(null);
-
-    await new Promise((r) => setTimeout(r, 800));
-
-    if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) {
-      setSubmitStatus('error');
-      setValidationMsg('ValidationError: All fields are required');
-    } else if (!contactForm.email.includes('@')) {
-      setSubmitStatus('error');
-      setValidationMsg('ValidationError: value is not a valid email address');
-    } else {
-      setSubmitStatus('success');
-      setValidationMsg('Message sent successfully! Antony will reach out soon.');
-      setContactForm({ name: '', email: '', message: '' });
-    }
-
-    setIsSubmitting(false);
-  };
-
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) { el.scrollIntoView({ behavior: 'smooth' }); setMobileOpen(false); }
-  };
-
-  const navLinks = [
-    { id: 'projects', label: 'Projects' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'contact', label: 'Contact' },
-  ];
-
-  // Calculate scroll-based opacity for navbar background
   const [scrolled, setScrolled] = useState(false);
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      setMobileOpen(false);
+    }
+  };
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(about.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${about.email}`;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#111828] text-[#e5e5e5] font-sans selection:bg-orange-500/30 selection:text-orange-200">
-
-      {/* Background */}
-      <div
-        className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-[0.08] pointer-events-none"
-        style={{ backgroundImage: `url(${programmerBg})` }}
-      />
-      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#111828]/95 via-transparent to-[#111828]/95 pointer-events-none" />
-      <div className="fixed inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_50%,#111828_85%)] pointer-events-none" />
-
-      <div className="relative z-10">
-
-        {/* ─── Navigation ─── */}
-        <motion.nav
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className={`sticky top-[2px] z-50 transition-all duration-500 ${
-            scrolled ? 'bg-[#111828]/80 backdrop-blur-xl shadow-lg shadow-orange-500/5' : 'bg-[#111828]/40 backdrop-blur-md'
-          } border-b border-white/5 px-6 sm:px-12 py-4`}
-        >
-          <div className="max-w-5xl mx-auto flex items-center justify-between">
-            <MagneticButton strength={0.2}>
-              <button onClick={() => scrollTo('hero')} className="flex items-center gap-2.5 group cursor-pointer">
-                <span className="relative flex items-center justify-center w-8 h-8">
-                  <span className="absolute inset-0 rounded-full bg-orange-500/20" />
-                  <span className="w-2 h-2 rounded-full bg-orange-400 group-hover:scale-125 transition-transform relative" />
-                </span>
-                <span className="font-mono text-xs text-white font-bold tracking-tight">
-                  antony@kihara:~
-                </span>
-              </button>
-            </MagneticButton>
-
-            <div className="hidden sm:flex items-center gap-6 text-xs font-mono text-neutral-400">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => scrollTo(link.id)}
-                  className={`transition-all cursor-pointer relative py-1 ${
-                    activeSection === link.id ? 'text-orange-400' : 'hover:text-white'
-                  }`}
-                >
-                  /{link.label.toLowerCase()}
-                  {activeSection === link.id && (
-                    <motion.div
-                      layoutId="nav-indicator"
-                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-orange-500 rounded-full"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                </button>
-              ))}
-              <a href="https://github.com/Tony46117" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
-                <Github className="w-4 h-4" />
-              </a>
-            </div>
-
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="sm:hidden p-2 text-neutral-400 hover:text-white transition-colors cursor-pointer">
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-
-          <AnimatePresence>
-            {mobileOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="sm:hidden overflow-hidden"
-              >
-                <div className="pt-4 pb-2 flex flex-col gap-3 text-sm font-mono">
-                  {navLinks.map((link) => (
-                    <button key={link.id} onClick={() => scrollTo(link.id)}
-                      className={`text-left px-2 py-2 rounded transition-all cursor-pointer ${
-                        activeSection === link.id ? 'text-orange-400 bg-orange-500/5' : 'text-neutral-400 hover:text-white hover:bg-white/5'
-                      }`}>
-                      /{link.label.toLowerCase()}
-                    </button>
-                  ))}
-                  <a href="https://github.com/Tony46117" target="_blank" rel="noreferrer"
-                    className="px-2 py-2 text-neutral-400 hover:text-white hover:bg-white/5 rounded transition-all flex items-center gap-2">
-                    <Github className="w-4 h-4" /> GitHub
-                  </a>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.nav>
-
-        {/* ─── Hero ─── */}
-        <section id="hero" className="relative pt-24 pb-16 px-6 min-h-[85vh] flex flex-col justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/[0.03] via-transparent to-amber-500/[0.03] pointer-events-none" />
-          <div className="max-w-5xl mx-auto w-full">
-          <ScrollReveal>
-            <div className="flex flex-col lg:flex-row lg:items-center lg:gap-12 gap-8">
-
-              {/* ─── Profile Photo ─── */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="relative shrink-0 mx-auto lg:mx-0"
-              >
-                <div className="relative w-48 h-48 sm:w-56 sm:h-56">
-                  {/* Static gradient border ring */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-500/40 via-amber-500/30 to-orange-400/40 p-[3px]">
-                    <div className="w-full h-full rounded-full bg-[#111828]" />
-                  </div>
-
-                  {/* Image container */}
-                  <div className="absolute inset-[3px] rounded-full overflow-hidden bg-[#1a2332] shadow-xl shadow-orange-500/10">
-                    <img
-                      src={profilePhoto}
-                      alt="Antony Gitau Kihara"
-                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-
-                  {/* Status indicator dot */}
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 1, type: 'spring' }}
-                    className="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full border-[3px] border-[#111828] flex items-center justify-center z-10"
-                  >
-                    <span className="w-2 h-2 bg-emerald-400 rounded-full" />
-                  </motion.div>
-                </div>
-              </motion.div>
-
-              {/* ─── Hero Content ─── */}
-              <div className="space-y-6 flex-1">
-                {/* Terminal badge */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900/80 border border-white/5 rounded-full text-xs font-mono text-orange-400 hover:border-orange-500/20 transition-all"
-                >
-                  <Terminal className="w-3.5 h-3.5" />
-                  <span className="text-neutral-500">$</span>
-                  <motion.span
-                    animate={{ opacity: [1, 0] }}
-                    transition={{ duration: 0.8, repeat: Infinity }}
-                  >_</motion.span>
-                  <span className="text-neutral-300">./portfolio --fullstack</span>
-                </motion.div>
-
-                <div className="space-y-3">
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="text-xs font-mono font-semibold tracking-wider uppercase gradient-text-subtle"
-                  >
-                    {ABOUT_ME.name}
-                  </motion.div>
-
-                  {/* Professional headline */}
-                  <div className="h-auto min-h-[3.5rem] sm:min-h-[4.5rem] flex flex-col justify-center">
-                    <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight glow">
-                      <span className="gradient-text">
-                        {ABOUT_ME.tagline}
-                      </span>
-                    </h1>
-                  </div>
-
-                  <motion.p
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="text-neutral-400 text-base sm:text-lg max-w-2xl leading-relaxed"
-                  >
-                    {ABOUT_ME.bio}
-                  </motion.p>
-
-                  {/* Location & Fun fact */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="flex flex-wrap gap-4 text-xs text-neutral-500"
-                  >
-                    <span className="flex items-center gap-1.5">
-                      <span className="text-base">📍</span>
-                      {ABOUT_ME.location}
-                    </span>
-                    <span className="text-neutral-700/50 hidden sm:inline">|</span>
-                    <span className="flex items-center gap-1.5">
-                      <Brain className="w-3.5 h-3.5 text-orange-400/60" />
-                      <span className="text-neutral-500 italic">{ABOUT_ME.funFact}</span>
-                    </span>
-                  </motion.div>
-                </div>
-
-                {/* CTA Buttons - with magnetic effect */}
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="flex flex-wrap items-center gap-4 pt-2"
-                >
-                  <MagneticButton strength={0.25}>
-                    <button onClick={() => scrollTo('contact')}
-                      className="px-6 py-3 bg-orange-600 hover:bg-orange-500 text-white font-medium text-xs rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-orange-600/20 hover:shadow-orange-600/40 hover:-translate-y-0.5 cursor-pointer"
-                    >
-                      Initiate Contact <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </MagneticButton>
-                  <MagneticButton strength={0.2}>
-                    <button onClick={handleCopyEmail}
-                      className="px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-medium text-xs rounded-lg transition-all border border-white/5 flex items-center gap-2 cursor-pointer hover:-translate-y-0.5"
-                    >
-                      {copiedEmail ? <><Check className="w-3.5 h-3.5 text-emerald-400" /> Copied</> : <><Copy className="w-3.5 h-3.5" /> Copy E-Mail</>}
-                    </button>
-                  </MagneticButton>
-                  <MagneticButton strength={0.2}>
-                    <a href="https://github.com/Tony46117" target="_blank" rel="noreferrer"
-                      className="px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-medium text-xs rounded-lg transition-all border border-white/5 flex items-center gap-2 hover:-translate-y-0.5"
-                    >
-                      <Github className="w-3.5 h-3.5" /> GitHub
-                    </a>
-                  </MagneticButton>
-                </motion.div>
-              </div>
-            </div>
-          </ScrollReveal>
-
-          {/* Stats Counters */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-            className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 py-6 border-y border-white/5"
+    <div className="min-h-screen bg-background text-zinc-200 font-sans antialiased overflow-x-hidden">
+      {/* ─── Nav ─── */}
+      <motion.nav
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? 'bg-background/80 backdrop-blur-xl border-b border-line'
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <button
+            onClick={() => scrollTo('hero')}
+            className="flex items-center gap-2 cursor-pointer group"
           >
-            <AnimatedCounter to={4} suffix="+" label="Years Experience" icon={<Star className="w-5 h-5" />} />
-            <AnimatedCounter to={1200} suffix="+ rps" label="Max Throughput" icon={<Zap className="w-5 h-5" />} />
-            <AnimatedCounter to={18} suffix="x" label="Query Speedup" icon={<Brain className="w-5 h-5" />} />
-            <AnimatedCounter to={98} suffix="%" label="Test Coverage" icon={<ShieldCheck className="w-5 h-5" />} />
-          </motion.div>
+            <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-accent-deep flex items-center justify-center text-white font-display font-bold text-sm shadow-lg shadow-accent/30">
+              A
+            </span>
+            <span className="font-display font-semibold text-white tracking-tight">
+              Antony<span className="text-accent-strong">.dev</span>
+            </span>
+          </button>
 
-          {/* Scroll indicator */}
-          <motion.div className="mt-8 flex justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
-            <button onClick={() => scrollTo('code')} className="cursor-pointer group">
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="text-neutral-600 group-hover:text-orange-400 transition-colors"
+          <div className="hidden md:flex items-center gap-1">
+            {NAV_LINKS.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                className={`px-3 py-2 text-sm rounded-lg transition-colors cursor-pointer ${
+                  activeSection === link.id
+                    ? 'text-white'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
               >
-                <ChevronDown className="w-6 h-6" />
-              </motion.div>
-            </button>
-          </motion.div>
-        </div>
-        </section>
-
-        <SectionDivider />
-
-        {/* ─── Code Terminal Section ─── */}
-        <section id="code" className="py-24 px-6 max-w-4xl mx-auto">
-          <ScrollReveal>
-            <div className="space-y-1.5 mb-10">
-              <div className="text-xs font-mono uppercase tracking-wider font-semibold gradient-text">
-                <Code2 className="w-3.5 h-3.5 inline mr-1" />
-                Live Code Showcase
-              </div>
-              <h3 className="text-lg font-bold text-white tracking-tight">
-                Watch Code Being Written in Real-Time
-              </h3>
-              <p className="text-xs text-neutral-400 max-w-2xl">
-                Watch as the terminal types out real Python, TypeScript, and SQL snippets — 
-                demonstrating the actual code patterns I use in production.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.2}>
-            <div className="relative rounded-xl overflow-hidden">
-              <CodeTerminal />
-            </div>
-          </ScrollReveal>
-        </section>
-
-        <SectionDivider flip />
-
-        {/* ─── Interactive Playground ─── */}
-        <section id="playground" className="py-24 px-6 max-w-5xl mx-auto">
-          <ScrollReveal>
-            <div className="space-y-1.5 mb-10">
-              <div className="text-xs font-mono uppercase tracking-wider font-semibold gradient-text">
-                <Zap className="w-3.5 h-3.5 inline mr-1" />
-                Interactive API Demo
-              </div>
-              <h3 className="text-lg font-bold text-white tracking-tight">
-                Try the API Yourself
-              </h3>
-              <p className="text-xs text-neutral-400 max-w-2xl">
-                Browse endpoints, add parameters, and see realistic JSON responses — 
-                all running client-side with beautifully simulated backend behavior.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.2}>
-            <TiltCard tiltDeg={3} glare={true}>
-              <ApiPlayground />
-            </TiltCard>
-          </ScrollReveal>
-        </section>
-
-        <SectionDivider />
-
-        {/* ─── Projects ─── */}
-        <section id="projects" className="py-24 px-6 max-w-4xl mx-auto">
-          <ScrollReveal>
-            <div className="space-y-1.5 mb-10">
-              <div className="text-xs font-mono uppercase tracking-wider font-semibold gradient-text">
-                <Layers className="w-3.5 h-3.5 inline mr-1" />
-                Featured Work
-              </div>
-              <h3 className="text-lg font-bold text-white tracking-tight">
-                Engineering Artifacts
-              </h3>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {FEATURED_PROJECTS.map((proj, i) => (
-              <ScrollReveal key={proj.id} delay={0.1 * i} direction={i === 0 ? 'left' : i === 2 ? 'right' : 'up'}>
-                <TiltCard tiltDeg={6} glare={true}>
-                  <motion.div
-                    className="group bg-[#1a2332] border border-white/5 rounded-xl p-5 hover:border-orange-500/20 hover:bg-[#1a2332]/80 transition-all duration-300 flex flex-col justify-between space-y-4 min-h-[200px] relative overflow-hidden"
-                    whileHover={{ y: -2 }}
-                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                  >
-                    {/* Shimmer overlay on hover */}
-                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
-
-                    <div className="space-y-2 relative z-10">
-                      <div className="flex items-start justify-between">
-                        <h4 className="text-sm font-bold text-white tracking-tight group-hover:text-orange-300 transition-colors">
-                          {proj.title}
-                        </h4>
-                        <a href={proj.github} target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-white transition-colors">
-                          <ArrowUpRight className="w-4 h-4" />
-                        </a>
-                      </div>
-                      <p className="text-xs text-neutral-400 leading-relaxed">{proj.description}</p>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 relative z-10">
-                      {proj.tags.map((t) => (
-                        <span key={t} className="text-[9px] font-mono font-medium bg-[#141416] text-orange-300 border border-orange-500/10 px-1.5 py-0.5 rounded group-hover:border-orange-500/20 transition-colors">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </motion.div>
-                </TiltCard>
-              </ScrollReveal>
-            ))}
-          </div>
-        </section>
-
-        <SectionDivider flip />
-
-        {/* ─── Experience ─── */}
-        <section id="experience" className="py-24 px-6 max-w-4xl mx-auto">
-          <ScrollReveal>
-            <div className="space-y-1.5 mb-10">
-              <div className="text-xs font-mono uppercase tracking-wider font-semibold gradient-text">
-                <GitBranch className="w-3.5 h-3.5 inline mr-1" />
-                Professional Timeline
-              </div>
-              <h3 className="text-lg font-bold text-white tracking-tight">Engineering Journey</h3>
-            </div>
-          </ScrollReveal>
-
-          <div className="space-y-6">
-            {EXPERIENCES.map((exp, i) => (
-              <ScrollReveal key={i} delay={0.1 * i}>
-                <motion.div
-                  whileHover={{ x: 4 }}
-                  transition={{ type: 'spring', stiffness: 200 }}
-                  className="relative flex gap-6 pl-6 before:content-[''] before:absolute before:left-[7px] before:top-3 before:bottom-[-24px] before:w-[1px] before:bg-gradient-to-b before:from-orange-500/20 before:to-transparent last:before:hidden"
-                >
-                  <div className="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full bg-orange-500/20 border-2 border-orange-500 flex items-center justify-center animate-pulse-glow">
-                    <motion.div
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="w-[5px] h-[5px] rounded-full bg-orange-400"
-                    />
-                  </div>
-                  <div className="flex-1 bg-[#1a2332] border border-white/5 rounded-xl p-5 hover:border-orange-500/20 hover:bg-[#1a2332]/70 transition-all">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                      <h4 className="text-sm font-bold text-white">{exp.role}</h4>
-                      <span className="text-[10px] font-mono text-neutral-500">{exp.period}</span>
-                    </div>
-                    <p className="text-xs text-neutral-500 font-medium mb-2">{exp.company}</p>
-                    <p className="text-xs text-neutral-400 leading-relaxed mb-3">{exp.description}</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {exp.tags.map((t) => (
-                        <span key={t} className="text-[9px] font-mono bg-[#141416] text-orange-300 border border-orange-500/10 px-1.5 py-0.5 rounded">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </section>
-
-        <SectionDivider />
-
-        {/* ─── Skills ─── */}
-        <section id="skills" className="py-24 px-6 max-w-4xl mx-auto">
-          <ScrollReveal>
-            <div className="space-y-1.5 mb-10">
-              <div className="text-xs font-mono uppercase tracking-wider font-semibold gradient-text">
-                <Rocket className="w-3.5 h-3.5 inline mr-1" />
-                Technical Stack
-              </div>
-              <h3 className="text-lg font-bold text-white tracking-tight">Stack Environment</h3>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {SKILLS_LIST.map((group, i) => (
-              <ScrollReveal key={group.category} delay={0.1 * i} direction={i % 2 === 0 ? 'left' : 'right'}>
-                <TiltCard tiltDeg={5} glare={true}>
-                  <motion.div
-                    className="bg-[#1a2332] border border-white/5 rounded-xl p-5 hover:border-orange-500/20 transition-all h-full"
-                    whileHover={{ y: -2 }}
-                  >
-                    <h5 className="text-[11px] font-mono text-white font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <span className="text-orange-400">{group.icon}</span>
-                      {group.category}
-                    </h5>
-                    <div className="flex flex-col gap-2.5">
-                      {group.items.map((skill, j) => (
-                        <motion.div
-                          key={skill}
-                          className="flex items-center gap-2.5 group/skill"
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.05 * j, duration: 0.3 }}
-                          viewport={{ once: true }}
-                          whileHover={{ x: 4 }}
-                        >
-                          <span className="relative flex items-center justify-center w-4 h-4">
-                            <span className="absolute inset-0 rounded-full bg-orange-500/10 group-hover/skill:bg-orange-500/30 scale-0 group-hover/skill:scale-100 transition-all duration-300" />
-                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500/40 group-hover/skill:bg-orange-400 transition-colors shrink-0 relative" />
-                          </span>
-                          <span className="text-xs text-neutral-400 group-hover/skill:text-neutral-200 transition-colors">{skill}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
-                </TiltCard>
-              </ScrollReveal>
-            ))}
-          </div>
-        </section>
-
-        <SectionDivider flip />
-
-        {/* ─── Quote ─── */}
-        <section className="py-16 px-6 max-w-3xl mx-auto text-center">
-          <ScrollReveal>
-            <motion.div
-              whileHover={{ scale: 1.01 }}
-              className="relative"
-            >
-              <Quote className="w-8 h-8 text-orange-500/20 absolute -top-4 -left-4 animate-float-slow" />
-              <p className="text-lg sm:text-xl text-neutral-300 italic leading-relaxed font-light">
-                "Good code isn't just about making the computer understand — 
-                it's about making other developers understand too."
-              </p>
-              <div className="mt-4 text-xs font-mono text-neutral-500">
-                — Antony Gitau Kihara
-              </div>
-            </motion.div>
-          </ScrollReveal>
-        </section>
-
-        <SectionDivider />
-
-        {/* ─── Contact ─── */}
-        <section id="contact" className="py-24 px-6 max-w-4xl mx-auto">
-          <ScrollReveal>
-            <div className="text-center space-y-2 mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full text-[10px] font-mono uppercase text-orange-400 font-bold tracking-wider">
-                <Send className="w-3 h-3" />
-                Get in Touch
-              </div>
-              <h2 className="text-2xl font-bold text-white tracking-tight glow">
-                Let's Build Something Great
-              </h2>
-              <p className="text-neutral-400 text-xs max-w-md mx-auto leading-relaxed">
-                Have a project in mind? Send a message and I'll get back to you within 24 hours.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-            {/* Info */}
-            <ScrollReveal direction="left" className="md:col-span-5">
-              <div className="bg-[#1a2332] border border-white/5 p-6 rounded-xl space-y-6 hover:border-orange-500/20 transition-all">
-                <h4 className="text-[10px] font-bold text-neutral-200 uppercase tracking-wider font-mono">
-                  Contact Info
-                </h4>
-                <div className="space-y-4 text-xs font-mono text-neutral-400">
-                  <div className="p-3 bg-[#050505] rounded-lg border border-white/5 space-y-1 hover:border-orange-500/10 transition-all">
-                    <div className="text-neutral-500 uppercase text-[9px] font-bold tracking-wider">Email</div>
-                    <button onClick={handleCopyEmail}
-                      className="text-white hover:text-orange-400 transition-colors font-semibold flex items-center gap-1.5 cursor-pointer text-left w-full break-all"
-                    >
-                      tgitau088@gmail.com
-                      {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> : <Copy className="w-3.5 h-3.5 text-neutral-400 shrink-0" />}
-                    </button>
-                  </div>
-                  <div className="p-3 bg-[#050505] rounded-lg border border-white/5 space-y-1 hover:border-orange-500/10 transition-all">
-                    <div className="text-neutral-500 uppercase text-[9px] font-bold tracking-wider">GitHub</div>
-                    <a href="https://github.com/Tony46117" target="_blank" rel="noreferrer"
-                      className="text-white hover:text-orange-400 transition-colors font-semibold flex items-center gap-1"
-                    >
-                      github.com/Tony46117 <ExternalLink className="w-3 h-3 shrink-0 text-neutral-500" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Form */}
-            <ScrollReveal direction="right" className="md:col-span-7">
-              <div className="bg-[#1a2332] border border-white/5 p-6 rounded-xl hover:border-orange-500/20 transition-all">
-                <form onSubmit={handleContactSubmit} className="space-y-4 text-xs font-mono">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label htmlFor="contact-name" className="font-semibold text-neutral-500 uppercase tracking-wider text-[9px]">Name</label>
-                      <input id="contact-name" type="text" required placeholder="Jane Doe" value={contactForm.name}
-                        onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                        className="w-full px-3 py-2 bg-[#050505] border border-white/10 rounded-lg text-neutral-200 focus:outline-none focus:border-orange-500 transition-colors" />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label htmlFor="contact-email" className="font-semibold text-neutral-500 uppercase tracking-wider text-[9px]">Email</label>
-                      <input id="contact-email" type="email" required placeholder="jane@example.com" value={contactForm.email}
-                        onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                        className="w-full px-3 py-2 bg-[#050505] border border-white/10 rounded-lg text-neutral-200 focus:outline-none focus:border-orange-500 transition-colors" />
-                    </div>
-                  </div>
-                  <div className="space-y-1.5">
-                    <label htmlFor="contact-message" className="font-semibold text-neutral-500 uppercase tracking-wider text-[9px]">Message</label>
-                    <textarea id="contact-message" required rows={3} placeholder="Tell me about your project..."
-                      value={contactForm.message} onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                      className="w-full px-3 py-2 bg-[#050505] border border-white/10 rounded-lg text-neutral-200 focus:outline-none focus:border-orange-500 transition-colors leading-relaxed" />
-                  </div>
-                  <MagneticButton strength={0.15} className="w-full">
-                    <button type="submit" disabled={isSubmitting}
-                      className="w-full py-2.5 flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-500 disabled:bg-neutral-800 disabled:text-neutral-500 text-white font-semibold rounded-lg transition-all cursor-pointer shadow-md shadow-orange-600/10 hover:-translate-y-0.5"
-                    >
-                      <Send className="w-3.5 h-3.5" />
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
-                    </button>
-                  </MagneticButton>
-                  <AnimatePresence>
-                    {submitStatus !== 'idle' && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 5 }}
-                        className={`p-3 rounded-lg font-mono text-[10px] border flex gap-3 ${
-                          submitStatus === 'success'
-                            ? 'bg-emerald-500/5 text-emerald-400 border-emerald-500/20'
-                            : 'bg-red-500/5 text-red-400 border-red-500/20'
-                        }`}
-                      >
-                        {submitStatus === 'success' ? <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-400" /> : <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-400" />}
-                        <div>
-                          <div className="font-semibold">{validationMsg}</div>
-                          {submitStatus === 'success' && <p className="text-[9px] text-neutral-400 mt-1 font-sans">Thank you! I'll reach out soon.</p>}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </form>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-
-        {/* Back to Top */}
-        <BackToTop />
-
-        {/* Footer */}
-        <footer className="relative border-t border-white/5 bg-[#030303] py-12 px-6 text-center text-neutral-600 text-xs font-mono space-y-4 overflow-hidden">
-          {/* Subtle footer gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-orange-500/[0.02] to-transparent pointer-events-none" />
-          
-          <div className="flex justify-center gap-6 text-neutral-400 relative z-10">
-            {navLinks.map((link) => (
-              <button key={link.id} onClick={() => scrollTo(link.id)} className="hover:text-white transition-colors cursor-pointer">
                 {link.label}
               </button>
             ))}
           </div>
-          <div className="flex justify-center gap-4 pt-2 relative z-10">
-            <a href="https://github.com/Tony46117" target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-white transition-colors"><Github className="w-4 h-4" /></a>
-            <a href="mailto:tgitau088@gmail.com" className="text-neutral-500 hover:text-white transition-colors"><Mail className="w-4 h-4" /></a>
+
+          <div className="flex items-center gap-3">
+            <a
+              href={about.github}
+              target="_blank"
+              rel="noreferrer"
+              className="hidden sm:flex items-center gap-2 text-zinc-400 hover:text-white transition-colors"
+              aria-label="GitHub"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+            <button
+              onClick={() => scrollTo('contact')}
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-white text-background text-sm font-semibold rounded-lg hover:bg-zinc-200 transition-colors cursor-pointer"
+            >
+              Let's talk
+            </button>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden p-2 text-zinc-300 hover:text-white cursor-pointer"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
-          <div className="text-[11px] relative z-10">© {new Date().getFullYear()} Antony Gitau Kihara. All rights reserved.</div>
-          <div className="text-[10px] text-neutral-700 relative z-10">Built with React · TypeScript · Tailwind CSS · Framer Motion</div>
-        </footer>
-      </div>
+        </div>
+
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden overflow-hidden border-b border-line bg-background/95 backdrop-blur-xl"
+            >
+              <div className="px-6 py-4 flex flex-col gap-1">
+                {NAV_LINKS.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => scrollTo(link.id)}
+                    className={`text-left px-3 py-2.5 rounded-lg transition-colors cursor-pointer ${
+                      activeSection === link.id
+                        ? 'text-white bg-white/5'
+                        : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    {link.label}
+                  </button>
+                ))}
+                <button
+                  onClick={() => scrollTo('contact')}
+                  className="mt-2 px-3 py-2.5 bg-white text-background text-sm font-semibold rounded-lg cursor-pointer"
+                >
+                  Let's talk
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
+
+      {/* ─── Hero ─── */}
+      <section
+        id="hero"
+        className="relative min-h-screen flex flex-col justify-center pt-28 pb-16 px-6"
+      >
+        {/* Background decoration */}
+        <div className="absolute inset-0 bg-grid pointer-events-none opacity-40 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)]" />
+        <div className="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full bg-accent/20 blur-[140px] pointer-events-none" />
+        <div className="absolute -bottom-32 -left-32 w-[480px] h-[480px] rounded-full bg-fuchsia-500/10 blur-[140px] pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto w-full relative z-10">
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-10 items-center">
+            {/* Text */}
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-white/5 text-xs font-mono text-accent-strong mb-6"
+              >
+                <span className="relative flex w-2 h-2">
+                  <span className="absolute inline-flex w-full h-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
+                  <span className="relative inline-flex w-2 h-2 rounded-full bg-emerald-400" />
+                </span>
+                Available for work
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight text-white"
+              >
+                {about.headlineA}{' '}
+                <span className="gradient-text glow">{about.headlineB}</span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mt-6 text-base sm:text-lg text-zinc-400 max-w-xl leading-relaxed"
+              >
+                {about.intro}
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-4 flex items-center gap-2 text-sm text-zinc-500"
+              >
+                <MapPin className="w-4 h-4 text-accent-strong" />
+                Based in {about.location}
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mt-8 flex flex-wrap items-center gap-4"
+              >
+                <button
+                  onClick={() => scrollTo('projects')}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-accent hover:bg-accent-deep text-white font-semibold rounded-xl transition-all shadow-lg shadow-accent/30 hover:shadow-accent/50 hover:-translate-y-0.5 cursor-pointer"
+                >
+                  View my work <ArrowRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={copyEmail}
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-line bg-white/5 hover:bg-white/10 text-zinc-200 font-semibold rounded-xl transition-all cursor-pointer"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-400" /> Copied
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="w-4 h-4" /> Get in touch
+                    </>
+                  )}
+                </button>
+              </motion.div>
+
+              {/* Tech stack */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="mt-10"
+              >
+                <p className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-3">
+                  My tech stack
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {heroTech.map((t) => (
+                    <span
+                      key={t}
+                      className="px-3 py-1.5 text-xs font-medium rounded-full border border-line bg-white/5 text-zinc-300"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Portrait */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="relative mx-auto lg:mx-0 w-full max-w-sm"
+            >
+              <div className="relative aspect-square">
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent/50 via-accent-deep/30 to-fuchsia-500/40 blur-2xl opacity-60" />
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-accent to-fuchsia-500 p-[2px]">
+                  <div className="w-full h-full rounded-3xl bg-surface overflow-hidden">
+                    <img
+                      src={profilePhoto}
+                      alt={about.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                {/* Floating badge */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                  className="absolute -bottom-4 -left-4 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card border border-line shadow-xl"
+                >
+                  <Code2 className="w-4 h-4 text-accent-strong" />
+                  <span className="text-xs font-medium text-white">
+                    Full-Stack Developer
+                  </span>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="mt-20 grid grid-cols-2 sm:grid-cols-4 gap-6 py-8 border-t border-line"
+          >
+            {stats.map((s) => (
+              <AnimatedCounter
+                key={s.label}
+                to={s.value}
+                suffix={s.suffix}
+                label={s.label}
+                icon={STAT_ICONS[s.label]}
+              />
+            ))}
+          </motion.div>
+        </div>
+
+        <motion.button
+          onClick={() => scrollTo('about')}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4 }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 text-zinc-600 hover:text-white transition-colors cursor-pointer"
+          aria-label="Scroll down"
+        >
+          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }}>
+            <ChevronDown className="w-6 h-6" />
+          </motion.div>
+        </motion.button>
+      </section>
+
+      {/* ─── About ─── */}
+      <section id="about" className="py-24 px-6 scroll-mt-20">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal className="mb-14 max-w-2xl">
+            <p className="font-mono text-sm text-accent-strong mb-3">The inside scoop</p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+              About me
+            </h2>
+            <p className="mt-4 text-zinc-400 leading-relaxed">
+              I'm {about.name}, a {about.role.toLowerCase()} based in {about.location}.
+              I enjoy taking a product from a rough idea all the way to a polished,
+              deployed experience — and making the technical decisions that keep it
+              fast and maintainable along the way.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <ScrollReveal delay={0.1}>
+              <div className="h-full rounded-2xl border border-line bg-card p-7">
+                <h3 className="font-display text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-accent-strong" /> Currently building
+                </h3>
+                <p className="text-zinc-400 leading-relaxed">
+                  {about.currentlyBuilding}
+                </p>
+                <a
+                  href="https://greenlineroyal.com/bus/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent-strong hover:text-white transition-colors"
+                >
+                  See it live <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.2}>
+              <div className="h-full rounded-2xl border border-line bg-card p-7">
+                <h3 className="font-display text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                  <Rocket className="w-4 h-4 text-accent-strong" /> What I do
+                </h3>
+                <ul className="space-y-3 text-zinc-400 text-sm">
+                  {[
+                    'Design and build full-stack web applications',
+                    'Create scalable, well-tested backend APIs',
+                    'Turn complex requirements into clean interfaces',
+                    'Deploy and maintain production systems',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <Check className="w-4 h-4 text-accent-strong mt-0.5 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Projects ─── */}
+      <section id="projects" className="py-24 px-6 scroll-mt-20 bg-surface/40 border-y border-line">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal className="mb-14 max-w-2xl">
+            <p className="font-mono text-sm text-accent-strong mb-3">Recent work</p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+              A small selection of projects
+            </h2>
+          </ScrollReveal>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map((project, i) => (
+              <ScrollReveal key={project.id} delay={0.08 * i}>
+                <div className="group h-full flex flex-col rounded-2xl border border-line bg-card p-6 hover:border-accent/40 transition-all duration-300 hover:-translate-y-1">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-2xl">💡</span>
+                    <div className="flex items-center gap-2">
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${project.title} on GitHub`}
+                          className="text-zinc-500 hover:text-white transition-colors"
+                        >
+                          <Github className="w-4 h-4" />
+                        </a>
+                      )}
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${project.title} live site`}
+                          className="text-zinc-500 hover:text-white transition-colors"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <h3 className="font-display text-lg font-semibold text-white group-hover:text-accent-strong transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-zinc-400 leading-relaxed flex-1">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-5">
+                    {project.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="px-2.5 py-1 text-[11px] font-medium rounded-md bg-white/5 border border-line text-zinc-300"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent-strong hover:text-white transition-colors"
+                    >
+                      Check live site <ArrowUpRight className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
+              </ScrollReveal>
+            ))}
+
+            {/* View more card */}
+            <ScrollReveal delay={0.4}>
+              <a
+                href={`${about.github}?tab=repositories`}
+                target="_blank"
+                rel="noreferrer"
+                className="group h-full flex flex-col items-center justify-center text-center rounded-2xl border border-dashed border-line bg-transparent p-6 hover:border-accent/40 hover:bg-white/[0.02] transition-all"
+              >
+                <Github className="w-8 h-8 text-zinc-600 group-hover:text-accent-strong transition-colors mb-3" />
+                <h3 className="font-display text-lg font-semibold text-white">
+                  See more on GitHub
+                </h3>
+                <p className="mt-2 text-sm text-zinc-500">
+                  Explore the rest of my repositories
+                </p>
+              </a>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Experience & Approach ─── */}
+      <section id="experience" className="py-24 px-6 scroll-mt-20">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal className="mb-14 max-w-2xl">
+            <p className="font-mono text-sm text-accent-strong mb-3">My work experience</p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+              Experience & approach
+            </h2>
+          </ScrollReveal>
+
+          <div className="grid lg:grid-cols-2 gap-10">
+            {/* Timeline */}
+            <div className="space-y-6">
+              {experience.map((exp, i) => (
+                <ScrollReveal key={exp.role} delay={0.1 * i}>
+                  <div className="relative pl-6 border-l border-line">
+                    <span className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-accent ring-4 ring-accent/20" />
+                    <div className="rounded-2xl border border-line bg-card p-6">
+                      <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+                        <h3 className="font-display font-semibold text-white">
+                          {exp.role}
+                        </h3>
+                        <span className="text-xs font-mono text-zinc-500">{exp.period}</span>
+                      </div>
+                      <p className="text-sm text-accent-strong mb-3">{exp.company}</p>
+                      <p className="text-sm text-zinc-400 leading-relaxed">{exp.description}</p>
+                      <div className="flex flex-wrap gap-2 mt-4">
+                        {exp.tags.map((t) => (
+                          <span
+                            key={t}
+                            className="px-2.5 py-1 text-[11px] font-medium rounded-md bg-white/5 border border-line text-zinc-300"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+
+            {/* Approach */}
+            <div className="space-y-6">
+              {approach.map((step, i) => (
+                <ScrollReveal key={step.step} delay={0.1 * i}>
+                  <div className="flex gap-5 rounded-2xl border border-line bg-card p-6">
+                    <span className="font-display text-3xl font-bold text-accent/30 shrink-0">
+                      {step.step}
+                    </span>
+                    <div>
+                      <h3 className="font-display font-semibold text-white flex items-center gap-2">
+                        {step.title}
+                        {i === 0 && <Search className="w-4 h-4 text-accent-strong" />}
+                        {i === 1 && <PenTool className="w-4 h-4 text-accent-strong" />}
+                        {i === 2 && <LifeBuoy className="w-4 h-4 text-accent-strong" />}
+                      </h3>
+                      <p className="mt-2 text-sm text-zinc-400 leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+
+          {/* Skills */}
+          <div className="mt-16">
+            <ScrollReveal className="mb-8">
+              <h3 className="font-display text-xl font-semibold text-white">
+                Technical stack
+              </h3>
+            </ScrollReveal>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {skillGroups.map((group, i) => (
+                <ScrollReveal key={group.category} delay={0.08 * i}>
+                  <div className="h-full rounded-2xl border border-line bg-card p-6">
+                    <h4 className="font-display font-semibold text-white mb-4 flex items-center gap-2">
+                      <span className="text-accent-strong">{SKILL_ICONS[group.category]}</span>
+                      {group.category}
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {group.items.map((item) => (
+                        <span
+                          key={item}
+                          className="px-2.5 py-1 text-[11px] font-medium rounded-md bg-white/5 border border-line text-zinc-300"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Testimonials ─── */}
+      <section id="testimonials" className="py-24 px-6 scroll-mt-20 bg-surface/40 border-y border-line">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal className="mb-14 max-w-2xl">
+            <p className="font-mono text-sm text-accent-strong mb-3">Kind words</p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+              What clients say
+            </h2>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {testimonials.map((t, i) => (
+              <ScrollReveal key={i} delay={0.1 * i}>
+                <div className="h-full flex flex-col rounded-2xl border border-line bg-card p-7">
+                  <Quote className="w-7 h-7 text-accent/40 mb-4" />
+                  <p className="text-zinc-300 leading-relaxed flex-1">"{t.quote}"</p>
+                  <div className="mt-6 pt-5 border-t border-line">
+                    <div className="font-display font-semibold text-white">{t.name}</div>
+                    <div className="text-sm text-zinc-500">{t.role}</div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Contact ─── */}
+      <section id="contact" className="py-24 px-6 scroll-mt-20">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-14 items-start">
+            <ScrollReveal>
+              <p className="font-mono text-sm text-accent-strong mb-3">Get in touch</p>
+              <h2 className="font-display text-3xl sm:text-5xl font-bold text-white tracking-tight leading-tight">
+                Ready to take your digital presence to the next level?
+              </h2>
+              <p className="mt-5 text-zinc-400 leading-relaxed max-w-md">
+                Have a project in mind or just want to say hello? Drop me a message
+                and I'll get back to you as soon as I can.
+              </p>
+
+              <div className="mt-8 space-y-4">
+                <a
+                  href={`mailto:${about.email}`}
+                  className="flex items-center gap-4 rounded-xl border border-line bg-card p-4 hover:border-accent/40 transition-colors"
+                >
+                  <span className="w-10 h-10 rounded-lg bg-accent/10 text-accent-strong flex items-center justify-center">
+                    <Mail className="w-5 h-5" />
+                  </span>
+                  <div>
+                    <div className="text-xs text-zinc-500">Email</div>
+                    <div className="text-white font-medium">{about.email}</div>
+                  </div>
+                </a>
+                <a
+                  href={about.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-4 rounded-xl border border-line bg-card p-4 hover:border-accent/40 transition-colors"
+                >
+                  <span className="w-10 h-10 rounded-lg bg-accent/10 text-accent-strong flex items-center justify-center">
+                    <Github className="w-5 h-5" />
+                  </span>
+                  <div>
+                    <div className="text-xs text-zinc-500">GitHub</div>
+                    <div className="text-white font-medium">github.com/Tony46117</div>
+                  </div>
+                </a>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.15}>
+              <ContactForm />
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Footer ─── */}
+      <footer className="border-t border-line py-10 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-zinc-500">
+            © {new Date().getFullYear()} {about.name}. All rights reserved.
+          </p>
+          <div className="flex items-center gap-5 text-zinc-500">
+            <a
+              href={about.github}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-white transition-colors"
+              aria-label="GitHub"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+            <a
+              href={`mailto:${about.email}`}
+              className="hover:text-white transition-colors"
+              aria-label="Email"
+            >
+              <Mail className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
 
 // ────────────────────────────────────────────────────────
-// Back to Top
+// Contact form
 // ────────────────────────────────────────────────────────
 
-function BackToTop() {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const handleScroll = () => setVisible(window.scrollY > 600);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+function ContactForm() {
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Project inquiry from ${form.name || 'your site'}`);
+    const body = encodeURIComponent(
+      `${form.message}\n\n— ${form.name}\n${form.email}`
+    );
+    window.location.href = `mailto:${about.email}?subject=${subject}&body=${body}`;
+    setSent(true);
+    setTimeout(() => setSent(false), 4000);
+  };
+
+  const inputClass =
+    'w-full px-4 py-3 rounded-xl bg-white/5 border border-line text-zinc-100 placeholder:text-zinc-600 focus:outline-none transition-colors';
 
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-8 right-8 z-50 p-3 bg-orange-600 hover:bg-orange-500 text-white rounded-full shadow-lg shadow-orange-600/20 transition-all hover:-translate-y-1 hover:shadow-orange-600/40 cursor-pointer"
-        >
-          <ChevronDown className="w-4 h-4 rotate-180" />
-        </motion.button>
-      )}
-    </AnimatePresence>
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-line bg-card p-7 space-y-4">
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <label htmlFor="name" className="text-sm font-medium text-zinc-300">
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            required
+            placeholder="Jane Doe"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            className={inputClass}
+          />
+        </div>
+        <div className="space-y-1.5">
+          <label htmlFor="email" className="text-sm font-medium text-zinc-300">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            required
+            placeholder="jane@example.com"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            className={inputClass}
+          />
+        </div>
+      </div>
+      <div className="space-y-1.5">
+        <label htmlFor="message" className="text-sm font-medium text-zinc-300">
+          Message
+        </label>
+        <textarea
+          id="message"
+          required
+          rows={5}
+          placeholder="Tell me about your project..."
+          value={form.message}
+          onChange={(e) => setForm({ ...form, message: e.target.value })}
+          className={`${inputClass} resize-none`}
+        />
+      </div>
+      <button
+        type="submit"
+        className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent hover:bg-accent-deep text-white font-semibold rounded-xl transition-all shadow-lg shadow-accent/30 hover:shadow-accent/50 cursor-pointer"
+      >
+        <Send className="w-4 h-4" /> Send message
+      </button>
+      <AnimatePresence>
+        {sent && (
+          <motion.p
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 5 }}
+            className="text-sm text-emerald-400 text-center"
+          >
+            Opening your email client…
+          </motion.p>
+        )}
+      </AnimatePresence>
+    </form>
   );
 }

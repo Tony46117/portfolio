@@ -1,175 +1,166 @@
-import { Project, Skill, ApiEndpoint } from './types';
+import type {
+  Project,
+  SkillGroup,
+  Experience,
+  Testimonial,
+  ApproachStep,
+  Stat,
+} from './types';
 
-export const skillsData: Skill[] = [
-  // Languages
-  { name: 'Python', category: 'languages', rating: 5, years: 4 },
-  { name: 'JavaScript', category: 'languages', rating: 5, years: 3 },
-  { name: 'TypeScript', category: 'languages', rating: 4, years: 2 },
-  { name: 'HTML5/CSS3', category: 'languages', rating: 5, years: 4 },
-  { name: 'SQL', category: 'languages', rating: 4, years: 3 },
-  
-  // Backend
-  { name: 'FastAPI', category: 'backend', rating: 5, years: 3 },
-  { name: 'Pydantic v2', category: 'backend', rating: 5, years: 3 },
-  { name: 'Django / Flask', category: 'backend', rating: 4, years: 3 },
-  { name: 'Uvicorn / Gunicorn', category: 'backend', rating: 5, years: 3 },
-  { name: 'PostgreSQL / MySQL', category: 'backend', rating: 4, years: 3 },
-  { name: 'SQLAlchemy / Tortoise ORM', category: 'backend', rating: 5, years: 3 },
-  { name: 'Celery & Redis', category: 'backend', rating: 4, years: 2 },
-  { name: 'RESTful API Design', category: 'backend', rating: 5, years: 4 },
+export const about = {
+  name: 'Antony Gitau Kihara',
+  firstName: 'Antony',
+  role: 'Full-Stack Software Engineer',
+  location: 'Nairobi, Kenya',
+  email: 'tgitau088@gmail.com',
+  github: 'https://github.com/Tony46117',
+  headlineA: 'Transforming concepts into',
+  headlineB: 'seamless user experiences',
+  intro:
+    "I'm a full-stack developer building responsive, useful products for the web — from bus ticketing platforms to autonomous trading software. I care about clean architecture, performance, and shipping things people actually use.",
+  currentlyBuilding: 'A cross-border bus ticketing platform for Greenline Royal.',
+};
 
-  // Frontend
-  { name: 'React', category: 'frontend', rating: 5, years: 3 },
-  { name: 'Tailwind CSS', category: 'frontend', rating: 5, years: 3 },
-  { name: 'React Context / Hooks', category: 'frontend', rating: 5, years: 3 },
-  { name: 'Motion (Animations)', category: 'frontend', rating: 4, years: 2 },
-  { name: 'Vite / npm', category: 'frontend', rating: 4, years: 3 },
-
-  // Tools & DevOps
-  { name: 'Git & GitHub Actions', category: 'tools', rating: 5, years: 4 },
-  { name: 'Docker / Compose', category: 'tools', rating: 4, years: 2 },
-  { name: 'Postman / OpenAPI Docs', category: 'tools', rating: 5, years: 4 },
-  { name: 'Linux / Bash Scripting', category: 'tools', rating: 4, years: 3 },
-  { name: 'Pytest / Testing Suites', category: 'tools', rating: 5, years: 3 }
+export const heroTech = [
+  'React',
+  'TypeScript',
+  'Next.js',
+  'Python',
+  'FastAPI',
+  'PostgreSQL',
+  'MongoDB',
+  'Tailwind CSS',
 ];
 
-export const projectsData: Project[] = [
+export const stats: Stat[] = [
+  { value: 4, suffix: '+', label: 'Years Experience' },
+  { value: 21, suffix: '+', label: 'Projects Built' },
+  { value: 15, suffix: '+', label: 'Technologies' },
+  { value: 2, suffix: '+', label: 'Live Deployments' },
+];
+
+export const projects: Project[] = [
   {
-    id: 'api-orchestrator',
-    title: 'FastAPI Microservice Orchestrator',
-    description: 'An asynchronous, high-throughput microservice orchestrator featuring dynamic rate limiting, load distribution, and visual status tracking.',
-    longDescription: 'Engineered as a robust middleware layer to coordinate upstream API requests safely. Built fully on Python\'s async/await paradigm, leveraging FastAPI\'s dependency injection for high-performance authentication. Integrated Redis token bucket algorithms for sub-millisecond rate limits and task dispatch.',
+    id: 'greenline',
+    title: 'Greenline Royal',
+    description:
+      'Bus ticketing platform with a video hero and ticket search across Kenya & Uganda routes.',
+    tags: ['HTML', 'CSS', 'JavaScript', 'Responsive'],
+    live: 'https://greenlineroyal.com/bus/',
+    github: 'https://github.com/Tony46117/greenline',
+  },
+  {
+    id: 'trader',
+    title: 'Autonomous Trader',
+    description:
+      'Autonomous trading software in Python that automates strategy execution and market analysis.',
+    tags: ['Python', 'Automation', 'Data Analysis'],
+    github: 'https://github.com/Tony46117/trader',
+  },
+  {
+    id: 'pendo',
+    title: 'Pendo',
+    description:
+      'A modern dating web app with a clean, responsive interface and real-time interactions.',
+    tags: ['TypeScript', 'React', 'Tailwind CSS'],
+    live: 'https://pendo-omega.vercel.app',
+    github: 'https://github.com/Tony46117/pendo',
+  },
+  {
+    id: 'grill-hotel',
+    title: 'Grill Hotel',
+    description:
+      'A professional hotel website with a modern landing experience and booking flow.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    github: 'https://github.com/Tony46117/grill-hotel-professional',
+  },
+  {
+    id: 'matrix',
+    title: 'Matrix Rain',
+    description:
+      'Terminal-based Matrix rain rendered over a photo using OpenCV face detection.',
+    tags: ['Python', 'OpenCV', 'Terminal'],
+    github: 'https://github.com/Tony46117/matrix',
+  },
+];
+
+export const skillGroups: SkillGroup[] = [
+  {
+    category: 'Languages',
+    items: ['Python', 'TypeScript', 'JavaScript', 'SQL', 'HTML & CSS'],
+  },
+  {
     category: 'Backend',
-    techStack: ['Python', 'FastAPI', 'Redis', 'Docker', 'Asyncio', 'Pytest'],
-    role: 'Lead Backend Engineer',
-    metrics: [
-      { label: 'Throughput', value: '1,200+ rps', description: 'Under heavy load profiles' },
-      { label: 'API Latency', value: '< 14ms', description: '99th percentile response time' },
-      { label: 'Test Coverage', value: '98%', description: 'Fully mocked unit & integration tests' }
-    ],
-    features: [
-      'Token-bucket dynamic rate limiting via Redis scripting.',
-      'Auto-healing connection pools with exponential backoff routing.',
-      'Pydantic v2 structured payload parsing with dynamic sanitization layers.',
-      'Centralized CORS and secure header configurations.'
-    ],
-    interactiveType: 'api-sim'
+    items: ['FastAPI', 'Django', 'Node.js', 'PostgreSQL', 'MongoDB', 'Redis'],
   },
   {
-    id: 'query-optimizer',
-    title: 'E-Commerce Ledger & Query Optimizer',
-    description: 'A transaction ledger back-end equipped with dynamic indexing, raw SQL analytics optimization, and an interactive query cost visualizer.',
-    longDescription: 'Created a highly reliable, double-entry ledger database schema mapping complex buyer-merchant operations. Optimized high-load reporting endpoints by auditing and replacing legacy ORM loops with specialized PostgreSQL window functions and index strategies, preventing standard N+1 issues.',
-    category: 'Full-Stack',
-    techStack: ['Python', 'FastAPI', 'PostgreSQL', 'SQLAlchemy', 'React', 'Recharts'],
-    role: 'Database & Backend Architect',
-    metrics: [
-      { label: 'Query Execution', value: '18x Faster', description: 'Optimized complex ledger aggregations' },
-      { label: 'Concurrency', value: '5,000+', description: 'Active concurrent transactions handled' },
-      { label: 'DB Connection', value: '0 leaks', description: 'Strict context-managed session pooling' }
-    ],
-    features: [
-      'Advanced compound indices and partial indices implementation.',
-      'Double-entry compliance with ACID safety validations.',
-      'Interactive query execution plan analyzer for frontend debugging.',
-      'Vibrant charts tracking transaction frequency and DB load.'
-    ],
-    interactiveType: 'query-optimizer'
+    category: 'Frontend',
+    items: ['React', 'Next.js', 'Tailwind CSS', 'Motion'],
   },
   {
-    id: 'schema-designer',
-    title: 'SQL-to-FastAPI Model Architect',
-    description: 'A full-stack visual schema builder allowing developers to map SQL tables and instantly generate valid FastAPI routes and Pydantic schemas.',
-    longDescription: 'Designed a code-generation workspace showcasing full-stack capabilities. The frontend offers an interactive interface to build relational tables, define properties (integers, strings, constraints, primary keys), and immediately builds highly compliant, lint-clean FastAPI code ready to copy.',
-    category: 'Full-Stack',
-    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Pydantic CodeGen', 'Python AST'],
-    role: 'Full-Stack Developer',
-    metrics: [
-      { label: 'Dev Bootstrapping', value: 'Instant', description: 'Reduces setup boilerplate time to seconds' },
-      { label: 'Syntax Accuracy', value: '100%', description: 'Valid Pydantic v2 and FastAPI PEP8 compliance' },
-      { label: 'Dynamic State', value: 'Zero lag', description: 'Reactive code generation as users edit tables' }
-    ],
-    features: [
-      'Interactive React UI to add, delete, and modify model fields.',
-      'Instant code output with syntax highlighting for Pydantic Models and CRUD endpoints.',
-      'Flexible data types mapping standard SQL to Python typing.',
-      'Copy-to-clipboard integration with visual toast confirmation.'
-    ],
-    interactiveType: 'schema-designer'
-  }
+    category: 'Tools',
+    items: ['Docker', 'Git & CI/CD', 'Linux', 'Pytest'],
+  },
 ];
 
-export const apiPlaygroundEndpoints: ApiEndpoint[] = [
+export const experience: Experience[] = [
   {
-    id: 'get-profile',
-    method: 'GET',
-    path: '/api/v1/developer/profile',
-    summary: 'Retrieve Antony\'s Core Profile',
-    description: 'Returns professional high-level metadata, summary of expertise, and contact information for the developer.',
-    responseExample: {
-      status: 'success',
-      data: {
-        name: 'Antony Gitau Kihara',
-        role: 'Backend-Focused Full-Stack Software Engineer',
-        location: 'Nairobi, Kenya',
-        core_languages: ['Python', 'JavaScript', 'TypeScript', 'SQL'],
-        primary_backend_framework: 'FastAPI',
-        primary_frontend_framework: 'React',
-        contact: {
-          email: 'tgitau088@gmail.com',
-          github: 'github.com/AntonyGitauKihara',
-          linkedin: 'linkedin.com/in/antonygitaukihara'
-        }
-      }
-    }
+    role: 'Backend Software Engineer',
+    company: 'Freelance · Contract',
+    period: '2023 — Present',
+    description:
+      'Architected high-throughput services with FastAPI, PostgreSQL and Redis — delivering scalable APIs with clean architecture and strong test coverage.',
+    tags: ['FastAPI', 'PostgreSQL', 'Redis', 'Docker'],
   },
   {
-    id: 'post-contact',
-    method: 'POST',
-    path: '/api/v1/contact',
-    summary: 'Submit Contact Message',
-    description: 'Validates contact form contents via Pydantic model structures, stores them locally, and schedules an instant response.',
-    parameters: [
-      { name: 'name', type: 'string', required: true, description: 'Sender full name', defaultValue: 'Jane Doe' },
-      { name: 'email', type: 'string', required: true, description: 'Valid sender email', defaultValue: 'jane@example.com' },
-      { name: 'message', type: 'string', required: true, description: 'Inquiry details', defaultValue: 'Looking to build a FastAPI API integration!' }
-    ],
-    responseExample: {
-      status: 'received',
-      message: 'Thank you Jane Doe, your message has been processed successfully.',
-      timestamp: '2026-07-21T03:41:15Z',
-      pydantic_validation: 'Passed [No Errors]',
-      payload_meta: {
-        char_count: 52,
-        email_domain: 'example.com'
-      }
-    }
+    role: 'Full-Stack Developer',
+    company: 'Independent Projects',
+    period: '2022 — Present',
+    description:
+      'Built full-stack products from schema to deployment — bus ticketing, trading software, and web apps — with an emphasis on responsiveness and real-world usefulness.',
+    tags: ['React', 'TypeScript', 'Python', 'REST APIs'],
+  },
+];
+
+export const approach: ApproachStep[] = [
+  {
+    step: '01',
+    title: 'Discovery & Planning',
+    description:
+      "We discuss your goals, audience and competitors, then plan the structure and timeline for a smooth build.",
   },
   {
-    id: 'simulate-query',
-    method: 'GET',
-    path: '/api/v1/ledger/query',
-    summary: 'Analyze Ledger SQL Cost',
-    description: 'Simulates a FastAPI endpoint query execution with raw PG explain plan diagnostics.',
-    parameters: [
-      { name: 'optimization_level', type: 'string', required: true, description: 'unoptimized | optimized', defaultValue: 'optimized' }
-    ],
-    responseExample: {
-      status: 'success',
-      query_meta: {
-        raw_sql: 'SELECT m.name, SUM(l.amount) FROM merchants m JOIN ledgers l ON m.id = l.merchant_id GROUP BY m.id;',
-        index_used: 'idx_ledgers_merchant_id (Hash Join)',
-        estimated_rows: 5120
-      },
-      execution_stats: {
-        latency_ms: 1.82,
-        unoptimized_latency_ms: 32.4,
-        speedup: '17.8x'
-      },
-      payload: [
-        { merchant: 'Apex Logistics', total_volume: 12450.50 },
-        { merchant: 'Vertex Tech', total_volume: 8240.20 }
-      ]
-    }
-  }
+    step: '02',
+    title: 'Design & Development',
+    description:
+      "I design a user-friendly experience that matches your brand, then build and test it thoroughly so everything works flawlessly.",
+  },
+  {
+    step: '03',
+    title: 'Launch & Maintenance',
+    description:
+      "We launch, set up tracking to measure success, and provide ongoing maintenance to keep your product secure and up to date.",
+  },
+];
+
+// TODO: Replace these with real client testimonials before going live.
+export const testimonials: Testimonial[] = [
+  {
+    quote:
+      'Antony delivered a fast, reliable platform that our team now relies on every day. Clear communication and clean, well-organized code from start to finish.',
+    name: 'Your Client Name',
+    role: 'Product Owner',
+  },
+  {
+    quote:
+      'A rare developer who cares about both the user experience and the architecture underneath. The result was polished, performant, and exactly what we needed.',
+    name: 'Your Client Name',
+    role: 'Founder',
+  },
+  {
+    quote:
+      'From planning to launch, everything was on time and thoughtfully built. He explained complex technical decisions in plain language and delivered beyond expectations.',
+    name: 'Your Client Name',
+    role: 'Startup Lead',
+  },
 ];

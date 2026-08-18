@@ -1,20 +1,43 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Antony Gitau Kihara — Portfolio
 
-# Run and deploy your AI Studio app
+A professional single-page portfolio built with **React**, **TypeScript**, **Vite**,
+and **Tailwind CSS v4**, with subtle animations powered by Motion.
 
-This contains everything you need to run your app locally.
+## ✨ Sections
 
-View your app in AI Studio: https://ai.studio/apps/9a6b87fe-4488-4046-ab34-979669ba77b3
+- Hero with headline, tech stack, and stats
+- About / "currently building"
+- Projects (featuring real, deployed work)
+- Experience & approach (timeline + process + skills)
+- Testimonials
+- Contact form (opens your email client)
 
-## Run Locally
+## 🚀 Getting started
 
-**Prerequisites:**  Node.js
+```bash
+npm install
+npm run dev      # start the dev server
+```
 
+## 🛠 Build & preview
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm run build    # production build to dist/
+npm run preview  # preview the production build
+npm run lint     # typecheck (tsc --noEmit)
+```
+
+## ✏️ Customizing
+
+- **Content**: edit `src/data.ts` — name, bio, projects, skills, experience,
+  and testimonials all live there.
+- **Theme**: adjust the color tokens in `src/index.css` under the `@theme` block.
+- **Portrait**: replace `src/assets/images/Screenshot_20260724_135823.png` with
+  your own photo.
+
+> ⚠️ The testimonials in `src/data.ts` are placeholders. Replace them with real
+> client feedback before publishing.
+
+## 📄 License
+
+MIT

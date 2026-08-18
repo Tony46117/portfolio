@@ -1,92 +1,71 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  
-  --color-background: #111828;
-  --color-surface: #1a2332;
-  --color-accent: #fb923c;
-  --color-accent-dark: #ea580c;
+
+  --color-background: #07070b;
+  --color-surface: #0d0e13;
+  --color-card: #12131a;
+  --color-line: #23242e;
+  --color-accent: #8b5cf6;
+  --color-accent-strong: #a78bfa;
+  --color-accent-deep: #7c3aed;
 }
 
-/* ── Smooth scrolling ── */
 html {
   scroll-behavior: smooth;
 }
 
-/* ── Custom scrollbar ── */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #111828;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #2a3448;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #3a4a66;
+body {
+  background-color: var(--color-background);
+  color: #e4e4e7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 /* ── Selection ── */
 ::selection {
-  background: rgba(251, 146, 60, 0.3);
-  color: #fed7aa;
+  background: rgba(139, 92, 246, 0.35);
+  color: #ffffff;
 }
 
-/* ── Animations ── */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(251, 146, 60, 0.15); }
-  50% { box-shadow: 0 0 20px rgba(251, 146, 60, 0.3); }
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #07070b;
+}
+::-webkit-scrollbar-thumb {
+  background: #26272f;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #34353f;
 }
 
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-15px) rotate(1deg); }
-  66% { transform: translateY(5px) rotate(-1deg); }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-.animate-float-slow {
-  animation: float-slow 8s ease-in-out infinite;
-}
-
-/* ── Gradient Text (Orange/Amber) ── */
+/* ── Gradient text ── */
 .gradient-text {
-  background: linear-gradient(135deg, #fb923c 0%, #f59e0b 50%, #f97316 100%);
+  background: linear-gradient(100deg, #c4b5fd 0%, #8b5cf6 45%, #f0abfc 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-.gradient-text-subtle {
-  background: linear-gradient(135deg, #f97316 0%, #fbbf24 50%, #fb923c 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* ── Glass morphism ── */
-.glass {
-  background: rgba(26, 35, 50, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* ── Glow text effect ── */
+/* ── Soft glow ── */
 .glow {
-  text-shadow: 0 0 20px rgba(251, 146, 60, 0.2), 0 0 40px rgba(251, 146, 60, 0.08);
+  text-shadow: 0 0 60px rgba(139, 92, 246, 0.35);
+}
+
+/* ── Subtle grid background ── */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
 }
 
 /* ── Focus styles ── */
@@ -94,18 +73,15 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
   outline: none;
-  border-color: #fb923c;
-  box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.3);
-}
-
-/* ── Code block selection ── */
-pre code {
-  background: transparent;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.4);
 }
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

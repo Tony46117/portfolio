@@ -9,6 +9,7 @@ interface AnimatedCounterProps {
   duration?: number;
   decimals?: number;
   icon?: React.ReactNode;
+  key?: string | number;
 }
 
 export default function AnimatedCounter({
@@ -54,12 +55,12 @@ export default function AnimatedCounter({
 
   return (
     <div ref={ref} className="text-center group">
-      <div className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight tabular-nums">
-        {icon && <span className="inline-block mr-1.5 text-orange-400">{icon}</span>}
+      <div className="text-3xl sm:text-4xl font-bold text-white font-display tracking-tight tabular-nums">
+        {icon && <span className="inline-block mr-2 text-accent-strong">{icon}</span>}
         {count.toFixed(decimals)}
         {suffix}
       </div>
-      <div className="text-xs text-neutral-500 font-mono mt-1 group-hover:text-neutral-400 transition-colors">
+      <div className="text-xs text-zinc-500 mt-1.5 group-hover:text-zinc-400 transition-colors">
         {label}
       </div>
     </div>

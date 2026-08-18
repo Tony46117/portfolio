@@ -1,43 +1,39 @@
-export type SkillCategory = 'backend' | 'frontend' | 'tools' | 'languages';
-
-export interface Skill {
-  name: string;
-  category: SkillCategory;
-  rating: number; // 1-5 scale
-  years: number;
-}
-
-export interface Metric {
-  label: string;
-  value: string;
-  description: string;
-}
-
 export interface Project {
   id: string;
   title: string;
   description: string;
-  longDescription: string;
-  category: 'Backend' | 'Full-Stack';
-  techStack: string[];
-  metrics: Metric[];
-  role: string;
-  features: string[];
-  interactiveType: 'api-sim' | 'query-optimizer' | 'schema-designer';
+  tags: string[];
+  live?: string;
+  github?: string;
 }
 
-export interface ApiEndpoint {
-  id: string;
-  method: 'GET' | 'POST';
-  path: string;
-  summary: string;
+export interface SkillGroup {
+  category: string;
+  items: string[];
+}
+
+export interface Experience {
+  role: string;
+  company: string;
+  period: string;
   description: string;
-  parameters?: {
-    name: string;
-    type: string;
-    required: boolean;
-    description: string;
-    defaultValue?: string;
-  }[];
-  responseExample: Record<string, any>;
+  tags: string[];
+}
+
+export interface Testimonial {
+  quote: string;
+  name: string;
+  role: string;
+}
+
+export interface ApproachStep {
+  step: string;
+  title: string;
+  description: string;
+}
+
+export interface Stat {
+  value: number;
+  suffix: string;
+  label: string;
 }
