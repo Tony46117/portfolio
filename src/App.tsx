@@ -679,6 +679,59 @@ export default function App() {
         </div>
       </section>
 
+      {/* ─── Locations ─── */}
+      <section id="locations" className="py-24 px-6 scroll-mt-20">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal className="mb-14 max-w-2xl">
+            <p className="font-mono text-sm text-accent-strong mb-3">Find Us</p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+              Our Locations
+            </h2>
+            <p className="mt-3 text-zinc-400 leading-relaxed">
+              We serve you from two convenient locations in the Kisumu region.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid sm:grid-cols-2 gap-6">
+            <ScrollReveal delay={0.1}>
+              <div className="rounded-2xl border border-line bg-card p-8 text-center hover:border-accent/40 transition-colors">
+                <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+                  <MapPin className="w-7 h-7 text-accent-strong" />
+                </div>
+                <h3 className="font-display text-xl font-bold text-white mb-2">Nyalenda</h3>
+                <p className="text-sm text-zinc-500 font-mono mb-5">0°15'16.4"S 36°14'02.6"E</p>
+                <a
+                  href="https://www.google.com/maps?q=-0.2545556,36.2340556"
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-strong hover:bg-accent-strong/90 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  View on Map <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.2}>
+              <div className="rounded-2xl border border-line bg-card p-8 text-center hover:border-accent/40 transition-colors">
+                <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+                  <MapPin className="w-7 h-7 text-accent-strong" />
+                </div>
+                <h3 className="font-display text-xl font-bold text-white mb-2">Texas</h3>
+                <p className="text-sm text-zinc-500 font-mono mb-5">0°15'31.7"S 36°17'23.5"E</p>
+                <a
+                  href="https://www.google.com/maps?q=-0.2588056,36.2898611"
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-strong hover:bg-accent-strong/90 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  View on Map <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
       {/* ─── Contact ─── */}
       <section id="contact" className="py-24 px-6 scroll-mt-20">
         <div className="max-w-6xl mx-auto">
