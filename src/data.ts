@@ -143,7 +143,6 @@ export const approach: ApproachStep[] = [
   },
 ];
 
-// TODO: Replace these with real client testimonials before going live.
 export const testimonials: Testimonial[] = [
   {
     quote:

@@ -26,13 +26,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ── Selection ── */
+ 
 ::selection {
   background: rgba(139, 92, 246, 0.35);
   color: #ffffff;
 }
 
-/* ── Scrollbar ── */
+ 
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -47,7 +47,7 @@ body {
   background: #34353f;
 }
 
-/* ── Gradient text ── */
+ 
 .gradient-text {
   background: linear-gradient(100deg, #c4b5fd 0%, #8b5cf6 45%, #f0abfc 100%);
   -webkit-background-clip: text;
@@ -55,12 +55,12 @@ body {
   color: transparent;
 }
 
-/* ── Soft glow ── */
+ 
 .glow {
   text-shadow: 0 0 60px rgba(139, 92, 246, 0.35);
 }
 
-/* ── Subtle grid background ── */
+ 
 .bg-grid {
   background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
@@ -68,7 +68,7 @@ body {
   background-size: 64px 64px;
 }
 
-/* ── Focus styles ── */
+ 
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
@@ -77,7 +77,7 @@ select:focus-visible {
   box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.4);
 }
 
-/* ── Reduced motion ── */
+ 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

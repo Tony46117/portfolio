@@ -1,7 +1,4 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
+ 
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -66,10 +63,6 @@ const STAT_ICONS: Record<string, ReactNode> = {
   'Live Deployments': <Rocket className="w-5 h-5" />,
 };
 
-// ────────────────────────────────────────────────────────
-// Hooks
-// ────────────────────────────────────────────────────────
-
 function useActiveSection() {
   const [active, setActive] = useState('hero');
   useEffect(() => {
@@ -90,10 +83,6 @@ function useActiveSection() {
   }, []);
   return active;
 }
-
-// ────────────────────────────────────────────────────────
-// App
-// ────────────────────────────────────────────────────────
 
 export default function App() {
   const activeSection = useActiveSection();
@@ -127,7 +116,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-zinc-200 font-sans antialiased overflow-x-hidden">
-      {/* ─── Nav ─── */}
+      { }
       <motion.nav
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -227,19 +216,19 @@ export default function App() {
         </AnimatePresence>
       </motion.nav>
 
-      {/* ─── Hero ─── */}
+      { }
       <section
         id="hero"
         className="relative min-h-screen flex flex-col justify-center pt-28 pb-16 px-6"
       >
-        {/* Background decoration */}
+        { }
         <div className="absolute inset-0 bg-grid pointer-events-none opacity-40 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_70%)]" />
         <div className="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full bg-accent/20 blur-[140px] pointer-events-none" />
         <div className="absolute -bottom-32 -left-32 w-[480px] h-[480px] rounded-full bg-fuchsia-500/10 blur-[140px] pointer-events-none" />
 
         <div className="max-w-6xl mx-auto w-full relative z-10">
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-10 items-center">
-            {/* Text */}
+            { }
             <div>
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -311,7 +300,7 @@ export default function App() {
                 </button>
               </motion.div>
 
-              {/* Tech stack */}
+              { }
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -334,7 +323,7 @@ export default function App() {
               </motion.div>
             </div>
 
-            {/* Portrait */}
+            { }
             <motion.div
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -352,7 +341,7 @@ export default function App() {
                     />
                   </div>
                 </div>
-                {/* Floating badge */}
+                { }
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -368,7 +357,7 @@ export default function App() {
             </motion.div>
           </div>
 
-          {/* Stats */}
+          { }
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -401,7 +390,7 @@ export default function App() {
         </motion.button>
       </section>
 
-      {/* ─── About ─── */}
+      { }
       <section id="about" className="py-24 px-6 scroll-mt-20">
         <div className="max-w-6xl mx-auto">
           <ScrollReveal className="mb-14 max-w-2xl">
@@ -719,7 +708,7 @@ export default function App() {
                 <h3 className="font-display text-xl font-bold text-white mb-2">Texas</h3>
                 <p className="text-sm text-zinc-500 font-mono mb-5">0°15'31.7"S 36°17'23.5"E</p>
                 <a
-                  href="https://www.google.com/maps?q=-0.2588056,36.2898611"
+                  href="https:
                   target="_blank"
                   rel="noopener"
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-strong hover:bg-accent-strong/90 text-white text-sm font-medium rounded-lg transition-colors"
@@ -732,7 +721,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ─── Contact ─── */}
+      { }
       <section id="contact" className="py-24 px-6 scroll-mt-20">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-14 items-start">

@@ -37,7 +37,7 @@ export default function AnimatedCounter({
       const elapsed = (now - startTime) / 1000;
       const progress = Math.min(elapsed / duration, 1);
 
-      // Ease out cubic
+      
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = from + range * eased;
 
